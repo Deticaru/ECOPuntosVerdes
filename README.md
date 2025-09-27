@@ -36,7 +36,7 @@ npm run dev
 
 ## IT 4 - Sebastián
 ### Desarrollar Monitoreo de Stock y Logística
-### Desarrollar Stock y Logística
+### Desarrollar Historial de Consumo y Puntos
 #### Fecha Límite Lunes 29/09
 
 ## IT 5 - Benjamin
