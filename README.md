@@ -6,10 +6,21 @@
 
 ### Pasos de Instalación
 1. Clonar Repositorio
-2. Escribir en terminal: npm install 
-3. Escribir en Terminal: npm run dev
-4. Abrir en el navegador (url en terminal)
+2. Correr en terminal:
+```
+npm install 
+```
+4. Correr en Terminal:
+```
+npm run dev
+```
+5. Abrir en el navegador (url en terminal)
 
+### Uso
+- Tras haber hecho la instalación, para abrir el proyecto sólo será necesario correr
+```
+npm run dev
+```
 
 # Indicaciones Trabajo
 
