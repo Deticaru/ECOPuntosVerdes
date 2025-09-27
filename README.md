@@ -1,5 +1,18 @@
 # Gestión de Proyectos
 
+### Pre Requisitos
+- **Node.js**
+- **Git**
+
+### Pasos de Instalación
+- 1. Clonar Repositorio
+- 2. npm install
+- 3. npm run dev
+- 4. Abrir en el navegador
+
+
+# Indicaciones Trabajo
+
 ## IT 2 - Francisca
 ### Desarrollar Autenticación de Usuario
 ### Desarrollar Escaneo y Validación de Compras
