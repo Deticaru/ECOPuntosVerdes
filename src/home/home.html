@@ -1,20 +1,114 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ECO Puntos Verdes</title>
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="home.css">
-  </head>
-  <body class="">
-    <div class="container">
-      <h1>🌱 ECO Puntos Verdes</h1>
-      <p>Sistema de gestión de puntos ecológicos</p>
-      <div class="nav-links">
-        <a href="../login/login.html">Iniciar Sesión</a>
-      </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO Puntos Verdes - Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="../styles/app-styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="app-header gradient-bg text-white px-4 py-6 rounded-b-3xl">
+            <div class="flex items-center justify-between mb-6">
+                <button class="p-2">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-lg font-semibold">Inicio</h1>
+                <div class="flex space-x-3">
+                    <i class="fas fa-sync-alt text-xl"></i>
+                    <i class="fas fa-map-marker-alt text-xl"></i>
+                </div>
+            </div>
+
+            <!-- Tarjeta de puntos -->
+            <div class="bg-white text-gray-800 rounded-2xl p-4 mb-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-2xl font-bold" id="puntosDisplay">123</span>
+                        <span class="text-gray-600 ml-1">Puntos</span>
+                    </div>
+                    <button class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                        Canjear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Elecciones sostenibles -->
+            <div class="bg-green-500 text-white rounded-2xl p-4">
+                <div class="flex items-center">
+                    <div class="bg-white bg-opacity-20 rounded-full p-2 mr-3">
+                        <i class="fas fa-check text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Elecciones sostenibles</div>
+                        <div class="text-sm opacity-90">Conoce nuestras iniciativas de sostenibilidad</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="app-content p-4">
+            <!-- Sección de escanear -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-4 mb-4 shadow-sm">
+                <div class="flex items-center">
+                    <div class="bg-blue-100 rounded-xl p-3 mr-4">
+                        <i class="fas fa-qrcode text-blue-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-800">Escanear producto</div>
+                        <div class="text-sm text-gray-600">Escanea códigos de barras para obtener detalles</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Reciente -->
+            <div class="mb-4">
+                <h3 class="font-semibold text-gray-800 mb-3">Reciente</h3>
+                <div class="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm">
+                    <div class="flex items-center">
+                        <div class="bg-blue-100 rounded-xl p-3 mr-4">
+                            <i class="fas fa-shopping-cart text-blue-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="font-semibold text-gray-800">Pedido de supermercado</div>
+                            <div class="text-sm text-gray-600">8 de abril</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <div class="bottom-nav px-4 py-2">
+            <div class="flex justify-around items-center">
+                <a href="#" class="flex flex-col items-center p-2">
+                    <i class="fas fa-gift text-yellow-500 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Cupones</span>
+                </a>
+                <a href="../tienda/tienda.html" class="flex flex-col items-center p-2">
+                    <i class="fas fa-tag text-red-500 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Tienda</span>
+                </a>
+                <a href="../home/home.html" class="flex flex-col items-center p-2">
+                    <i class="fas fa-home text-blue-500 text-lg mb-1"></i>
+                    <span class="text-xs text-blue-500 font-semibold">Inicio</span>
+                </a>
+                <a href="#" class="flex flex-col items-center p-2">
+                    <i class="fas fa-heart text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Favoritos</span>
+                </a>
+                <a href="../dashboard/dashboard.html" class="flex flex-col items-center p-2">
+                    <i class="fas fa-user text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Cuenta</span>
+                </a>
+            </div>
+        </div>
     </div>
-  </body>
+
+    <script src="home.js"></script>
+</body>
 </html>

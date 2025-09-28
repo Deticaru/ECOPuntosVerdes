@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO Puntos Verdes - Mi Cuenta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="../styles/app-styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="app-header gradient-bg text-white px-4 py-6 rounded-b-3xl">
+            <div class="flex items-center justify-between mb-6">
+                <button onclick="window.history.back()" class="p-2">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-lg font-semibold">Mi Cuenta</h1>
+                <div class="flex space-x-3">
+                    <i class="fas fa-cog text-xl"></i>
+                    <i class="fas fa-bell text-xl"></i>
+                </div>
+            </div>
+
+            <!-- Stats rápidos -->
+            <div class="grid grid-cols-3 gap-3 mb-4">
+                <div class="bg-white bg-opacity-20 rounded-xl p-3 text-center">
+                    <div class="text-2xl font-bold" id="totalPuntos">123</div>
+                    <div class="text-xs opacity-90">Puntos</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-xl p-3 text-center">
+                    <div class="text-2xl font-bold" id="carbonoEvitado">5.8</div>
+                    <div class="text-xs opacity-90">kg CO₂</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-xl p-3 text-center">
+                    <div class="text-2xl font-bold" id="totalCompras">2</div>
+                    <div class="text-xs opacity-90">Compras</div>
+                </div>
+            </div>
+
+            <!-- Usuario info -->
+            <div class="bg-white text-gray-800 rounded-2xl p-4">
+                <div class="flex items-center">
+                    <div class="bg-green-100 rounded-full p-3 mr-3">
+                        <i class="fas fa-user text-green-600 text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Juan Pérez</div>
+                        <div class="text-sm text-gray-600">Eco-Usuario Activo 🌱</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido -->
+        <div class="app-content p-4">
+            <!-- Gráfico pequeño -->
+            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-chart-line text-green-500 mr-2"></i>
+                    Progreso Mensual
+                </h3>
+                <div class="h-32">
+                    <canvas id="graficoMensual"></canvas>
+                </div>
+            </div>
+
+            <!-- Métricas de impacto -->
+            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-globe text-blue-500 mr-2"></i>
+                    Tu Impacto Ambiental
+                </h3>
+                <div class="grid grid-cols-2 gap-3" id="metricasImpacto">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Historial reciente -->
+            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-history text-purple-500 mr-2"></i>
+                    Compras Recientes
+                </h3>
+                <div id="historialCompras" class="space-y-3">
+                    <!-- Se carga dinámicamente -->
+                </div>
+                <div id="sinCompras" class="text-center py-6 text-gray-500 hidden">
+                    <i class="fas fa-shopping-cart text-3xl mb-2"></i>
+                    <p class="text-sm">No hay compras aún</p>
+                    <a href="../tienda/tienda.html" class="inline-block mt-3 bg-green-500 text-white px-4 py-2 rounded-lg text-sm">
+                        Ir a Tienda
+                    </a>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-trophy text-yellow-500 mr-2"></i>
+                    Logros Ecológicos
+                </h3>
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="text-center p-3 bg-green-50 rounded-lg">
+                        <i class="fas fa-seedling text-green-500 text-2xl mb-1"></i>
+                        <div class="text-xs font-semibold">Primera Compra</div>
+                    </div>
+                    <div class="text-center p-3 bg-blue-50 rounded-lg">
+                        <i class="fas fa-recycle text-blue-500 text-2xl mb-1"></i>
+                        <div class="text-xs font-semibold">Eco Reciclador</div>
+                    </div>
+                    <div class="text-center p-3 bg-gray-100 rounded-lg opacity-50">
+                        <i class="fas fa-medal text-gray-400 text-2xl mb-1"></i>
+                        <div class="text-xs">100 Puntos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <div class="bottom-nav px-4 py-2">
+            <div class="flex justify-around items-center">
+                <a href="#" class="flex flex-col items-center p-2">
+                    <i class="fas fa-gift text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Cupones</span>
+                </a>
+                <a href="../tienda/tienda.html" class="flex flex-col items-center p-2">
+                    <i class="fas fa-tag text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Tienda</span>
+                </a>
+                <a href="../home/home.html" class="flex flex-col items-center p-2">
+                    <i class="fas fa-home text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Inicio</span>
+                </a>
+                <a href="#" class="flex flex-col items-center p-2">
+                    <i class="fas fa-heart text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Favoritos</span>
+                </a>
+                <a href="../dashboard/dashboard.html" class="flex flex-col items-center p-2">
+                    <i class="fas fa-user text-blue-500 text-lg mb-1"></i>
+                    <span class="text-xs text-blue-500 font-semibold">Cuenta</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="dashboard.js"></script>
+</body>
+</html>
