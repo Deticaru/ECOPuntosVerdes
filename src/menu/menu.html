@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar Responsivo - ECO Puntos Verdes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Navbar móvil (solo título en la esquina superior izquierda) -->
+  <header class="md:hidden bg-blue-600 text-white shadow-md fixed top-0 left-0 right-0 z-10">
+    <div class="px-6 py-4 flex justify-start items-center">
+      <h1 class="font-bold text-lg">
+        🌱 ECO <span class="text-green-300">Puntos Verdes</span>
+      </h1>
+    </div>
+  </header>
+
+  <!-- Navbar escritorio (arriba con enlaces) -->
+  <header class="hidden md:block bg-blue-600 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <h1 class="text-xl font-bold flex items-center gap-2">
+        🌱 <span class="text-green-300">ECO</span> Puntos Verdes
+      </h1>
+      <nav class="flex gap-6 font-medium">
+        <a href="#" class="hover:text-green-300">Reportes</a>
+        <a href="#" class="hover:text-green-300">Puntos Verdes</a>
+        <a href="#" class="hover:text-green-300">Escaneo</a>
+        <a href="#" class="hover:text-green-300">Inventario</a>
+        <a href="../home/home.html" class="hover:text-green-300">Cerrar Sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="flex-grow max-w-7xl mx-auto px-6 py-20 md:py-10">
+    <h2 class="text-2xl font-bold text-blue-600 mb-4">Bienvenido al Panel</h2>
+    <p class="text-gray-700">
+      Aquí puedes acceder a todas las funciones de ECO Puntos Verdes desde el menú superior (desktop) o inferior (móvil).
+    </p>
+  </main>
+
+  <!-- Navbar móvil (abajo con funciones) -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-blue-600 text-white shadow-inner">
+    <div class="flex justify-around items-center py-3 text-sm font-medium">
+      <a href="#" class="flex flex-col items-center hover:text-green-300">
+        📊 <span>Reportes</span>
+      </a>
+      <a href="#" class="flex flex-col items-center hover:text-green-300">
+        ♻️ <span>Puntos</span>
+      </a>
+      <a href="#" class="flex flex-col items-center hover:text-green-300">
+        𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃 <span>Escaneo</span>
+      </a>
+      <a href="#" class="flex flex-col items-center hover:text-green-300">
+        📦 <span>Inventario</span>
+      </a>
+      <a href="../home/home.html" class="flex flex-col items-center hover:text-green-300">
+        ⚙️ <span>Cerrar Sesión</span>
+      </a>
+    </div>
+  </nav>
+
+</body>
+</html>

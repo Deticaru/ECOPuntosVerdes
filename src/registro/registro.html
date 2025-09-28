@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro - ECO Puntos Verdes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="flex items-center justify-center min-h-screen bg-gray-100 font-sans">
+
+    <!-- Contenedor -->
+    <div class="bg-white shadow-xl rounded-xl p-8 w-11/12 max-w-md">
+      
+      <!-- Icono usuario -->
+      <div class="flex justify-center mb-6">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" 
+             alt="Usuario" class="h-20 w-20 rounded-full shadow-md">
+      </div>
+
+      <!-- Título -->
+      <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">
+        Registrar Usuario
+      </h1>
+
+      <!-- Formulario -->
+      <form id="registerForm" class="flex flex-col gap-4">
+        <input type="text" id="name" placeholder="Nombre completo"
+               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+
+        <input type="email" id="email" placeholder="Correo electrónico"
+               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+
+        <input type="password" id="password" placeholder="Contraseña"
+               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+
+        <input type="password" id="confirmPassword" placeholder="Confirmar contraseña"
+               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+
+        <button type="submit" 
+                class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition">
+          Registrarse
+        </button>
+      </form>
+
+      <!-- Links -->
+      <div class="flex flex-col items-center mt-6 text-sm text-blue-600 space-y-2">
+        <a href="../login/login.html">¿Ya tienes cuenta? Inicia Sesión</a>
+        <a href="../home/home.html" class="text-gray-500 hover:text-gray-700">← Volver al Inicio</a>
+      </div>
+    </div>
+
+    <script>
+      // Validación del formulario
+      document.getElementById("registerForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (!name || !email || !password || !confirmPassword) {
+          alert("Por favor, completa todos los campos.");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert("Las contraseñas no coinciden.");
+          return;
+        }
+
+        // Si todo es correcto, redirige al menú
+        window.location.href = "../menu/menu.html";
+      });
+    </script>
+  </body>
+</ht
