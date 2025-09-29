@@ -107,10 +107,10 @@ button:active {
 /* Responsive - Desktop */
 @media (min-width: 768px) {
     .app-container {
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
-        border: 8px solid #000;
+        box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+        border: 8px solid #ffffff;
         border-radius: 35px;
-        background: #000;
+        background: #ffffff;
         padding: 0;
         margin-top: 20px;
         margin-bottom: 20px;
