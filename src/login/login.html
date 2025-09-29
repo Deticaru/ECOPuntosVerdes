@@ -2,27 +2,53 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - ECO Puntos Verdes</title>
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="login.css">
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <div class="container">
-      <h1>Iniciar Sesión</h1>
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Contraseña:</label>
-          <input type="password" id="password" name="password" required>
-        </div>
-        <button type="submit">Iniciar Sesión</button>
+  <body class="flex items-center justify-center min-h-screen bg-gray-100 font-sans">
+
+    <!-- Contenedor -->
+    <div class="bg-white shadow-xl rounded-xl p-8 w-11/12 max-w-md">
+      
+      <!-- Icono usuario -->
+      <div class="flex justify-center mb-6">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" 
+             alt="Usuario" class="h-20 w-20 rounded-full shadow-md">
+      </div>
+
+      <!-- Título -->
+      <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">
+        Iniciar Sesión
+      </h1>
+
+      <!-- Formulario -->
+      <form id="loginForm" class="flex flex-col gap-4">
+        <input type="email" placeholder="Correo electrónico"
+               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+
+        <input type="password" placeholder="Contraseña"
+               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+
+        <button type="submit" 
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition">
+          Iniciar Sesión
+        </button>
       </form>
-      <a href="../home/home.html" class="back-link">← Volver al Inicio</a>
+
+      <!-- Links -->
+      <div class="flex flex-col items-center mt-6 text-sm text-blue-600 space-y-2">
+        <a href="../registro/registro.html">¿Aun no te registras?</a>
+        <a href="../home/home.html" class="text-gray-500 hover:text-gray-700">← Volver al Inicio</a>
+      </div>
     </div>
+
+    <script>
+      // Redirige al menú después de login
+      document.getElementById("loginForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        window.location.href = "../menu/menu.html";
+      });
+    </script>
   </body>
 </html>
