@@ -161,7 +161,7 @@
                         <button onclick="showSection('productos')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="productos">
                             <div class="p-2 transition-all">
                                 <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                                    <path d="M3 4a1 1 0 000 2v9a2 2 0 002 2h6a2 2 0 002-2V6a1 1 0 100-2H3zM8 8a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1zm0 4a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path>
                                 </svg>
                             </div>
                             <span class="font-medium text-white">Productos</span>
@@ -196,16 +196,6 @@
                                 </svg>
                             </div>
                             <span class="font-medium text-white">Reportes</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button onclick="showSection('inventario')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="inventario">
-                            <div class="p-2 transition-all">
-                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-                                </svg>
-                            </div>
-                            <span class="font-medium text-white">Inventario</span>
                         </button>
                     </li>
                 </ul>
@@ -282,7 +272,14 @@
                     <div class="bg-white rounded-lg shadow">
                         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                             <h2 class="text-lg font-semibold text-gray-800">Productos Ecológicos - Configuración de Puntos</h2>
-                            <button id="syncButton" onclick="syncWithWalmart()" class="bg-walmart-blue text-walmart-yellow px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors relative overflow-hidden">
+                            <div class="flex space-x-3">
+                                <button onclick="openAddProductModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span>Agregar Producto</span>
+                                </button>
+                                <button id="syncButton" onclick="syncWithWalmart()" class="bg-walmart-blue text-walmart-yellow px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors relative overflow-hidden">
                                 <span id="syncText">🔄 Sincronizar con Walmart API</span>
                                 <span id="syncLoader" class="hidden">
                                     <svg class="animate-spin h-4 w-4 inline-block mr-2" fill="none" viewBox="0 0 24 24">
@@ -293,6 +290,7 @@
                                 </span>
                                 <span id="syncSuccess" class="hidden">✅ Sincronizado correctamente</span>
                             </button>
+                            </div>
                         </div>
                         <div class="p-6">
                             <div class="overflow-x-auto">
@@ -690,124 +688,78 @@
                                 <div class="border rounded-lg p-4 hover:border-blue-300 cursor-pointer transition-colors">
                                     <h3 class="font-medium text-gray-900 mb-2">Reporte de Ventas</h3>
                                     <p class="text-gray-600 text-sm mb-3">Análisis detallado de las ventas mensuales</p>
-                                    <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Generar</button>
+                                    <button onclick="generateReport('ventas')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Generar</button>
                                 </div>
                                 <div class="border rounded-lg p-4 hover:border-blue-300 cursor-pointer transition-colors">
                                     <h3 class="font-medium text-gray-900 mb-2">Reporte de Usuarios</h3>
                                     <p class="text-gray-600 text-sm mb-3">Estadísticas de registro y actividad</p>
-                                    <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Generar</button>
+                                    <button onclick="generateReport('usuarios')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Generar</button>
                                 </div>
-                                <div class="border rounded-lg p-4 hover:border-blue-300 cursor-pointer transition-colors">
-                                    <h3 class="font-medium text-gray-900 mb-2">Reporte de Inventario</h3>
-                                    <p class="text-gray-600 text-sm mb-3">Estado actual del stock y movimientos</p>
-                                    <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Generar</button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Inventario Section -->
-                <div id="inventario-section" class="section-content hidden">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm font-medium">Items en Stock</p>
-                                    <p class="text-3xl font-bold text-gray-900">130</p>
-                                </div>
-                                <div class="bg-green-100 p-3 rounded-full">
-                                    <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm font-medium">Valor Total</p>
-                                    <p class="text-3xl font-bold text-gray-900">$15,450</p>
-                                </div>
-                                <div class="bg-blue-100 p-3 rounded-full">
-                                    <span class="text-xl">💰</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm font-medium">Movimientos Hoy</p>
-                                    <p class="text-3xl font-bold text-gray-900">23</p>
-                                </div>
-                                <div class="bg-yellow-100 p-3 rounded-full">
-                                    <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm font-medium">Alertas de Stock</p>
-                                    <p class="text-3xl font-bold text-red-600">7</p>
-                                </div>
-                                <div class="bg-red-100 p-3 rounded-full">
-                                    <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg shadow">
-                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                            <h2 class="text-lg font-semibold text-gray-800">Movimientos de Inventario</h2>
-                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                                + Registrar Movimiento
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <div class="overflow-x-auto">
-                                <table class="w-full">
-                                    <thead class="bg-gray-50">
-                                        <tr>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock Actual</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="bg-white divide-y divide-gray-200">
-                                        <tr class="hover:bg-gray-50">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-09-27</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Botella Reutilizable</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Salida</span>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-5</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">25</td>
-                                        </tr>
-                                        <tr class="hover:bg-gray-50">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-09-26</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Bolsa Biodegradable</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Entrada</span>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">+50</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">55</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </main>
+    </div>
+
+    <!-- Modal para agregar producto -->
+    <div id="addProductModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-800">Agregar Nuevo Producto ECO</h3>
+                    <button onclick="closeAddProductModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <form id="addProductForm" onsubmit="addProduct(event)" class="p-6">
+                <div class="space-y-4">
+                    <div>
+                        <label for="productCode" class="block text-sm font-medium text-gray-700 mb-1">Código del Producto</label>
+                        <input type="text" id="productCode" name="productCode" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               placeholder="Ej: ECO001">
+                        <p class="text-xs text-gray-500 mt-1">El nombre se obtendrá automáticamente desde la API de Walmart</p>
+                    </div>
+                    
+                    <div>
+                        <label for="co2Saving" class="block text-sm font-medium text-gray-700 mb-1">Ahorro CO₂ (kg)</label>
+                        <input type="number" id="co2Saving" name="co2Saving" step="0.1" min="0" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               placeholder="Ej: 2.3">
+                    </div>
+                    
+                    <div>
+                        <label for="ecoPoints" class="block text-sm font-medium text-gray-700 mb-1">Puntos ECO</label>
+                        <input type="number" id="ecoPoints" name="ecoPoints" min="0" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               placeholder="Ej: 150">
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="closeAddProductModal()" 
+                            class="px-4 py-2 text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors flex items-center space-x-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>Agregar Producto</span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>
