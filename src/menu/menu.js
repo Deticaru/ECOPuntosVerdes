@@ -162,6 +162,25 @@ function configurarLazyLoading() {
     imagenes.forEach(img => imageObserver.observe(img));
 }
 
+function exportarReporte() {
+    alert("El reporte de impacto ambiental se exportará en formato PDF o Excel.");
+    // Aquí se puede integrar una librería como jsPDF o SheetJS para generar el archivo
+}
+
+function compartirReporte() {
+    if (navigator.share) {
+        navigator.share({
+            title: "Mi Impacto Ambiental",
+            text: "He ahorrado CO₂ y contribuido al medioambiente 🌱",
+            url: window.location.href
+        })
+        .then(() => console.log("Compartido con éxito"))
+        .catch((error) => console.log("Error al compartir:", error));
+    } else {
+        alert("La opción de compartir no está disponible en este navegador.");
+    }
+}
+
 // Inicializar lazy loading si hay imágenes
 configurarLazyLoading();
 
@@ -178,3 +197,111 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+function toggleUserMenu() {
+  document.getElementById("userMenu").classList.toggle("hidden");
+}
+
+function abrirNotificaciones() {
+  document.getElementById("modalNotificaciones").classList.remove("hidden");
+  document.getElementById("userMenu").classList.add("hidden");
+}
+
+function cerrarNotificaciones() {
+  document.getElementById("modalNotificaciones").classList.add("hidden");
+}
+
+// Guardar preferencias
+document.getElementById("formNotificaciones").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const preferencias = {
+    puntos: this.puntos.checked,
+    promociones: this.promociones.checked,
+    productos: this.productos.checked,
+    habitos: this.habitos.checked
+  };
+
+  // Guardar en localStorage (simulación de BD/Backend)
+  localStorage.setItem("notificaciones", JSON.stringify(preferencias));
+
+  alert("✅ Preferencias de notificaciones guardadas con éxito");
+  cerrarNotificaciones();
+});
+
+// Simulación de envío de notificaciones
+function generarNotificacion(mensaje) {
+  const noti = document.createElement("div");
+  noti.className = "fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg animate-bounce";
+  noti.innerText = mensaje;
+  document.body.appendChild(noti);
+  setTimeout(() => noti.remove(), 4000);
+}
+
+// Ejemplo: lanzar notificación automática
+setTimeout(() => {
+  const prefs = JSON.parse(localStorage.getItem("notificaciones")) || {};
+  if (prefs.puntos) {
+    generarNotificacion("🎉 Has sumado 50 Puntos Verdes en tu última compra");
+  }
+}, 5000);
+
+
+// Funciones modal Cupones
+function abrirCupones() {
+    document.getElementById("modalCupones").classList.remove("hidden");
+    cargarCupones();
+}
+
+function cerrarCupones() {
+    document.getElementById("modalCupones").classList.add("hidden");
+}
+
+// Datos simulados de cupones
+let cupones = [
+    { id: 1, nombre: '10% Descuento Walmart', puntos: 50, activo: true, app: 'Walmart' },
+    { id: 2, nombre: '5% Descuento EcoPuntos', puntos: 20, activo: true, app: 'EcoPuntos' },
+    { id: 3, nombre: '15% Descuento Walmart', puntos: 100, activo: false, app: 'Walmart' }
+];
+
+// Cargar cupones dinámicamente
+function cargarCupones() {
+    const lista = document.getElementById('listaCupones');
+    lista.innerHTML = '';
+
+    cupones.forEach(cupon => {
+        const puedeCanjear = puntosUsuario >= cupon.puntos && cupon.activo;
+        lista.innerHTML += `
+            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div>
+                    <div class="font-semibold">${cupon.nombre}</div>
+                    <div class="text-xs text-gray-500">Requiere ${cupon.puntos} puntos • ${cupon.app}</div>
+                </div>
+                <button ${!puedeCanjear ? 'disabled' : ''} 
+                    class="px-3 py-1 rounded-lg text-white ${puedeCanjear ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}"
+                    onclick="canjearCupon(${cupon.id})">
+                    Canjear
+                </button>
+            </div>
+        `;
+    });
+}
+
+// Canjear cupón
+function canjearCupon(id) {
+    const cupon = cupones.find(c => c.id === id);
+    if (!cupon || !cupon.activo) {
+        alert("❌ Este cupón ya no está disponible.");
+        return;
+    }
+    if (puntosUsuario < cupon.puntos) {
+        alert("❌ No tienes puntos suficientes para canjear este cupón.");
+        return;
+    }
+
+    puntosUsuario -= cupon.puntos;
+    localStorage.setItem('puntosUsuario', puntosUsuario);
+    alert(`✅ Cupón canjeado: ${cupon.nombre} (${cupon.app})`);
+    cargarCupones();
+    actualizarEstadisticas();
+}
+document.getElementById('btnCupones').addEventListener('click', abrirCupones);
