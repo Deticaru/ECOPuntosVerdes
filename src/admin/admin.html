@@ -121,12 +121,239 @@
             background: linear-gradient(45deg, transparent 30%, rgba(255, 194, 32, 0.05) 50%, transparent 70%);
             pointer-events: none;
         }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 260px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 1000;
+                box-shadow: 2px 0 15px rgba(0,0,0,0.2);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                display: none;
+            }
+            
+            .sidebar-overlay.show {
+                display: block;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding-top: 0; /* Removemos el padding top ya que no hay header */
+            }
+            
+            .mobile-header {
+                display: none; /* Ocultamos el header móvil */
+            }
+            
+            .hamburger {
+                display: none;
+            }
+            
+            /* Botón flotante para abrir menú */
+            .floating-menu-btn {
+                position: fixed;
+                top: 60px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+                background: rgba(30, 64, 175, 0.12);
+                border: none;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: rgba(30, 64, 175, 0.7);
+                font-size: 18px;
+                cursor: pointer;
+                z-index: 1001;
+                box-shadow: 0 2px 6px rgba(30, 64, 175, 0.08);
+                transition: all 0.3s ease;
+            }
+            
+            .floating-menu-btn:hover {
+                transform: scale(1.05);
+                background: rgba(30, 64, 175, 0.2);
+                color: rgba(30, 64, 175, 0.9);
+                box-shadow: 0 4px 10px rgba(30, 64, 175, 0.15);
+            }
+            
+            .floating-menu-btn.hidden {
+                opacity: 0;
+                visibility: hidden;
+                transform: scale(0.8);
+            }
+            
+            /* Botón para cerrar sidebar (flecha izquierda) */
+            .close-sidebar-btn {
+                position: fixed;
+                top: 60px;
+                left: 280px; /* A la derecha del sidebar de 260px + 20px de margen */
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+                border: 2px solid rgba(255, 255, 255, 0.8);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+                z-index: 1001;
+                box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+                transition: all 0.3s ease;
+                opacity: 0;
+                visibility: hidden;
+                transform: scale(0.8);
+                animation: pulse-hint 2s infinite;
+            }
+            
+            .close-sidebar-btn.show {
+                opacity: 1;
+                visibility: visible;
+                transform: scale(1);
+            }
+            
+            .close-sidebar-btn:hover {
+                transform: scale(1.1);
+                box-shadow: 0 6px 20px rgba(30, 64, 175, 0.6);
+                border-color: rgba(255, 255, 255, 1);
+            }
+            
+            .close-sidebar-btn.show {
+                animation: none; /* Detener la animación de pulso al mostrar */
+            }
+            
+            @keyframes pulse-hint {
+                0%, 100% {
+                    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+                    transform: scale(1);
+                }
+                50% {
+                    box-shadow: 0 6px 25px rgba(30, 64, 175, 0.6);
+                    transform: scale(1.05);
+                }
+            }
+            
+            .grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Mobile sidebar optimizations */
+            .sidebar .p-6 {
+                padding: 1rem !important;
+            }
+            
+            .sidebar .space-y-2 > * {
+                margin-bottom: 0.25rem;
+            }
+            
+            .sidebar .nav-item {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .sidebar .nav-item i {
+                width: 1.2rem;
+                font-size: 1rem;
+                margin-right: 0.75rem;
+            }
+            
+            .sidebar h2 {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .sidebar .flex.items-center {
+                gap: 0.75rem;
+            }
+            
+            .overflow-x-auto table {
+                min-width: 600px;
+            }
+            
+            .responsive-table th,
+            .responsive-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.875rem;
+            }
+            
+            .modal-content {
+                margin: 1rem;
+                max-width: calc(100vw - 2rem);
+            }
+        }
+        
+        /* Para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .sidebar .nav-item {
+                padding: 0.65rem 0.85rem;
+                font-size: 0.85rem;
+            }
+            
+            .sidebar .p-6 {
+                padding: 0.75rem !important;
+            }
+            
+            .sidebar h2 {
+                font-size: 1rem;
+                padding: 0 0.85rem;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .floating-menu-btn {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100">
     <div class="flex h-screen">
+        <!-- Botón flotante para móviles -->
+        <button class="floating-menu-btn md:hidden" onclick="toggleSidebar()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+
+        <!-- Botón para cerrar sidebar (flecha izquierda) -->
+        <button class="close-sidebar-btn md:hidden" onclick="closeSidebar()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="closeSidebar()"></div>
+        
         <!-- Sidebar -->
-        <aside class="w-64 sidebar-gradient text-white flex flex-col shadow-2xl animate-fadeInUp">
+        <aside class="sidebar w-64 sidebar-gradient text-white flex flex-col shadow-2xl animate-fadeInUp">
             <!-- Logo/Header -->
             <div class="p-6 relative overflow-hidden" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);">
                 <!-- Decorative elements -->
@@ -203,17 +430,17 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto">
+        <main class="main-content flex-1 overflow-y-auto">
             <!-- Header -->
             <header class="bg-white shadow-sm border-b">
-                <div class="px-6 py-4">
-                    <h1 class="text-2xl font-semibold text-gray-800">Panel de Administración ECO</h1>
-                    <p class="text-gray-600 text-sm mt-1">Gestión de puntos verdes y seguimiento de huella de carbono</p>
+                <div class="px-4 md:px-6 py-4">
+                    <h1 class="text-xl md:text-2xl font-semibold text-gray-800">Panel de Administración ECO</h1>
+                    <p class="text-gray-600 text-xs md:text-sm mt-1">Gestión de puntos verdes y seguimiento de huella de carbono</p>
                 </div>
             </header>
 
             <!-- Dashboard Content -->
-            <div class="p-6">
+            <div class="p-4 md:p-6">
                 <!-- Productos Section -->
                 <div id="productos-section" class="section-content hidden">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -270,17 +497,21 @@
                     </div>
                     
                     <div class="bg-white rounded-lg shadow">
-                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                            <h2 class="text-lg font-semibold text-gray-800">Productos Ecológicos - Configuración de Puntos</h2>
-                            <div class="flex space-x-3">
-                                <button onclick="openAddProductModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2">
+                        <div class="px-4 md:px-6 py-4 border-b border-gray-200 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+                            <h2 class="text-base md:text-lg font-semibold text-gray-800">Productos Ecológicos - Configuración de Puntos</h2>
+                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                                <button onclick="openAddProductModal()" class="bg-green-600 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 text-sm md:text-base">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
                                     </svg>
-                                    <span>Agregar Producto</span>
+                                    <span class="hidden sm:inline">Agregar Producto</span>
+                                    <span class="sm:hidden">Agregar</span>
                                 </button>
-                                <button id="syncButton" onclick="syncWithWalmart()" class="bg-walmart-blue text-walmart-yellow px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors relative overflow-hidden">
-                                <span id="syncText">🔄 Sincronizar con Walmart API</span>
+                                <button id="syncButton" onclick="syncWithWalmart()" class="bg-walmart-blue text-walmart-yellow px-3 md:px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors relative overflow-hidden text-sm md:text-base">
+                                <span id="syncText">
+                                    <span class="hidden sm:inline">🔄 Sincronizar con Walmart API</span>
+                                    <span class="sm:hidden">🔄 Sync</span>
+                                </span>
                                 <span id="syncLoader" class="hidden">
                                     <svg class="animate-spin h-4 w-4 inline-block mr-2" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -708,7 +939,7 @@
 
     <!-- Modal para agregar producto -->
     <div id="addProductModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div class="modal-content bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
             <div class="px-6 py-4 border-b border-gray-200">
                 <div class="flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-gray-800">Agregar Nuevo Producto ECO</h3>
@@ -720,7 +951,7 @@
                 </div>
             </div>
             
-            <form id="addProductForm" onsubmit="addProduct(event)" class="p-6">
+            <form id="addProductForm" onsubmit="addProduct(event)" class="p-4 md:p-6">
                 <div class="space-y-4">
                     <div>
                         <label for="productCode" class="block text-sm font-medium text-gray-700 mb-1">Código del Producto</label>

@@ -412,8 +412,63 @@ function downloadReport(fileName) {
     }, 1000);
 }
 
+// Funciones para responsive mobile
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    const floatingBtn = document.querySelector('.floating-menu-btn');
+    const closeBtn = document.querySelector('.close-sidebar-btn');
+    
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+    
+    // Prevenir scroll del body cuando sidebar está abierto
+    if (sidebar.classList.contains('open')) {
+        document.body.style.overflow = 'hidden';
+        if (floatingBtn) floatingBtn.classList.add('hidden');
+        if (closeBtn) closeBtn.classList.add('show');
+    } else {
+        document.body.style.overflow = '';
+        if (floatingBtn) floatingBtn.classList.remove('hidden');
+        if (closeBtn) closeBtn.classList.remove('show');
+    }
+}
+
+function closeSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    const floatingBtn = document.querySelector('.floating-menu-btn');
+    const closeBtn = document.querySelector('.close-sidebar-btn');
+    
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+    if (floatingBtn) floatingBtn.classList.remove('hidden');
+    if (closeBtn) closeBtn.classList.remove('show');
+}
+
+// Cerrar sidebar al hacer clic en un elemento de navegación (móviles)
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.nav-btn') && window.innerWidth <= 768) {
+        setTimeout(closeSidebar, 150); // Pequeño delay para la animación de selección
+    }
+});
+
+// Cerrar sidebar al redimensionar a desktop
+window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+        closeSidebar();
+    }
+});
+
 // Inicialización cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
     // Mostrar sección ventas por defecto
     showSection('ventas');
+    
+    // Agregar evento para cerrar sidebar al tocar overlay
+    const overlay = document.querySelector('.sidebar-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', closeSidebar);
+    }
 });
