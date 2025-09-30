@@ -24,10 +24,10 @@
 
       <!-- Formulario -->
       <form id="loginForm" class="flex flex-col gap-4">
-        <input type="email" placeholder="Correo electrónico"
+        <input type="email" id="emailInput" placeholder="Correo electrónico"
                class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
 
-        <input type="password" placeholder="Contraseña"
+        <input type="password" id="passwordInput" placeholder="Contraseña"
                class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
 
         <button type="submit" 
@@ -44,10 +44,58 @@
     </div>
 
     <script>
-      // Redirige al menú después de login
+      // Lógica de login con detección de admin
       document.getElementById("loginForm").addEventListener("submit", function(e) {
         e.preventDefault();
-        window.location.href = "../menu/menu.html";
+        
+        // Obtener el email del formulario
+        const emailInput = document.getElementById('emailInput');
+        const submitButton = document.querySelector('button[type="submit"]');
+        const email = emailInput.value.toLowerCase();
+        
+        // Cambiar texto del botón para feedback
+        const originalText = submitButton.textContent;
+        submitButton.textContent = 'Verificando...';
+        submitButton.disabled = true;
+        
+        // Simular un pequeño delay para mejor UX
+        setTimeout(() => {
+          // Verificar si el email contiene "@admin"
+          if (email.includes('@admin')) {
+            // Feedback visual para admin
+            submitButton.textContent = 'Accediendo como Admin...';
+            submitButton.className = 'w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition';
+            
+            setTimeout(() => {
+              console.log('Admin email detected:', email);
+              window.location.href = "../admin/admin.html";
+            }, 800);
+          } else {
+            // Feedback visual para usuario normal
+            submitButton.textContent = 'Accediendo...';
+            
+            setTimeout(() => {
+              console.log('Regular user email:', email);
+              window.location.href = "../menu/menu.html";
+            }, 800);
+          }
+        }, 500);
+      });
+      
+      // Detectar cambios en el email para mostrar indicador visual
+      document.getElementById('emailInput').addEventListener('input', function(e) {
+        const email = e.target.value.toLowerCase();
+        const submitButton = document.querySelector('button[type="submit"]');
+        
+        if (email.includes('@admin')) {
+          // Indicar que es admin
+          submitButton.textContent = '🔐 Iniciar Sesión (Admin)';
+          submitButton.className = 'w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold py-3 rounded-lg transition';
+        } else {
+          // Botón normal
+          submitButton.textContent = 'Iniciar Sesión';
+          submitButton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition';
+        }
       });
     </script>
   </body>
