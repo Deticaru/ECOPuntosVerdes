@@ -15,13 +15,9 @@
         <!-- Header Responsivo -->
         <div class="app-header gradient-bg text-white">
             <!-- Desktop Header Layout -->
-            <div class="desktop-header-layout">
+            <div class="flex desktop-header-layout">
                 <!-- Navegación izquierda -->
                 <div class="flex items-center space-x-4">
-                    <button
-                        class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable lg:hidden">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
                     <div class="flex items-center space-x-3">
                         <div class="text-3xl">🌱</div>
                         <h1 class="text-2xl font-bold hide-mobile">ECO Puntos Verdes</h1>
@@ -73,9 +69,19 @@
             </div>
 
             <!-- Contenido del header responsivo -->
-            <div class="mt-8 responsive-grid">
+            <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols:1 xs:grid-cols-1 gap-4 p-4">
+                <!-- Stats adicionales (solo desktop) -->
+                <div class="card bg-blue-500 text-white animate-fade-in col-span-1">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold" id="carbonoEvitado">5.8</div>
+                        <div class="text-sm opacity-90">kg CO₂ Evitados</div>
+                        <div class="mt-2">
+                            <i class="fas fa-leaf text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
                 <!-- Tarjeta de puntos -->
-                <div class="card bg-white text-gray-800 animate-fade-in">
+                <div class="card bg-white text-gray-800 animate-fade-in col-span-1">
                     <div class="flex items-center justify-between">
                         <div>
                             <span class="text-3xl lg:text-4xl font-bold text-blue-600" id="puntosDisplay">123</span>
@@ -89,7 +95,7 @@
                 </div>
 
                 <!-- Elecciones sostenibles -->
-                <div class="card bg-green-500 text-white animate-fade-in">
+                <div class="hide-mobile card bg-green-500 text-white animate-fade-in col-span-1">
                     <div class="flex items-center">
                         <div class="bg-white bg-opacity-20 rounded-full p-3 mr-4">
                             <i class="fas fa-check text-2xl"></i>
@@ -101,21 +107,12 @@
                     </div>
                 </div>
 
-                <!-- Stats adicionales (solo desktop) -->
-                <div class="hide-mobile card bg-blue-500 text-white animate-fade-in">
-                    <div class="text-center">
-                        <div class="text-3xl font-bold" id="carbonoEvitado">5.8</div>
-                        <div class="text-sm opacity-90">kg CO₂ Evitados</div>
-                        <div class="mt-2">
-                            <i class="fas fa-leaf text-2xl"></i>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
         <!-- Contenido principal responsivo -->
         <div class="app-content">
+            <!-- Grid responsivo de funcionalidades -->
             <!-- Grid responsivo de funcionalidades -->
             <div class="responsive-grid mb-8">
                 <!-- Escanear producto -->
@@ -286,7 +283,7 @@
     </div>
 
     <!-- Modal Cupones -->
-    <div id="modalCupones" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div id="modalCupones" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999]">
         <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
             <h2 class="text-xl font-bold mb-4">Promociones y Cupones</h2>
 
