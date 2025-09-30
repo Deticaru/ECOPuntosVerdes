@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +10,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="../styles/app-styles.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Header VISIBLE y CLICKEABLE -->
         <div class="app-header gradient-bg text-white px-4 py-6 rounded-b-3xl">
             <div class="flex items-center justify-between mb-6">
-                <button onclick="window.history.back()" class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
+                <button onclick="window.history.back()"
+                    class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
                     <i class="fas fa-arrow-left text-xl"></i>
                 </button>
                 <h1 class="text-lg font-semibold">Mi Cuenta</h1>
@@ -22,9 +25,11 @@
                     <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
                         <i class="fas fa-cog text-xl"></i>
                     </button>
-                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
+
+                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable" id="btnNotificaciones">
                         <i class="fas fa-bell text-xl"></i>
                     </button>
+
                 </div>
             </div>
 
@@ -92,7 +97,8 @@
                 <div id="sinCompras" class="text-center py-6 text-gray-500 hidden">
                     <i class="fas fa-shopping-cart text-3xl mb-2"></i>
                     <p class="text-sm">No hay compras aún</p>
-                    <a href="../tienda/tienda.html" class="inline-block mt-3 bg-green-500 text-white px-4 py-2 rounded-lg text-sm clickeable">
+                    <a href="../tienda/tienda.html"
+                        class="inline-block mt-3 bg-green-500 text-white px-4 py-2 rounded-lg text-sm clickeable">
                         Ir a Tienda
                     </a>
                 </div>
@@ -123,10 +129,12 @@
         <!-- Navegación inferior FUNCIONAL -->
         <div class="bottom-nav px-4 py-3">
             <div class="flex justify-around items-center">
-                <a href="#" class="flex flex-col items-center p-2 clickeable">
-                    <i class="fas fa-gift text-gray-400 text-lg mb-1"></i>
-                    <span class="text-xs text-gray-600">Cupones</span>
+               <a href="#" id="btnCupones"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+                    <i class="fas fa-gift text-yellow-500 text-lg mb-1 lg:mb-0"></i>
+                    <span class="text-xs lg:text-sm text-gray-600">Cupones</span>
                 </a>
+
                 <a href="../tienda/tienda.html" class="flex flex-col items-center p-2 clickeable">
                     <i class="fas fa-tag text-gray-400 text-lg mb-1"></i>
                     <span class="text-xs text-gray-600">Tienda</span>
@@ -139,14 +147,51 @@
                     <i class="fas fa-heart text-gray-400 text-lg mb-1"></i>
                     <span class="text-xs text-gray-600">Favoritos</span>
                 </a>
-                <a href="../dashboard/dashboard.html" class="flex flex-col items-center p-2 bg-blue-50 rounded-xl clickeable">
+                <a href="../dashboard/dashboard.html"
+                    class="flex flex-col items-center p-2 bg-blue-50 rounded-xl clickeable">
                     <i class="fas fa-user text-blue-500 text-lg mb-1"></i>
                     <span class="text-xs text-blue-500 font-semibold">Cuenta</span>
                 </a>
             </div>
         </div>
     </div>
+  <div id="modalNotificaciones" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+    <h2 class="text-xl font-bold mb-4">Configuración de Notificaciones</h2>
+    <form id="formNotificaciones" class="space-y-4">
+      <div>
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" name="puntos" class="form-checkbox">
+          <span>Puntos verdes y logros</span>
+        </label>
+      </div>
+      <div>
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" name="promociones" class="form-checkbox">
+          <span>Promociones y descuentos</span>
+        </label>
+      </div>
+      <div>
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" name="productos" class="form-checkbox">
+          <span>Productos sostenibles recomendados</span>
+        </label>
+      </div>
+
+      <div class="flex justify-end space-x-3 mt-4">
+        <button type="button" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400" onclick="cerrarNotificaciones()">
+          Cancelar
+        </button>
+        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
     <script type="module" src="dashboard.js"></script>
 </body>
+
 </html>
