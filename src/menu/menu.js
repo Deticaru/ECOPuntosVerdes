@@ -3,25 +3,24 @@
 let puntosUsuario = 0;
 let historialCompras = [];
 
-// Inicializar página de inicio
+// Inicializar página responsiva
 document.addEventListener('DOMContentLoaded', () => {
     cargarDatosUsuario();
     actualizarEstadisticasHome();
-    animarPuntos();
+    animarElementos();
+    configurarResponsive();
 });
 
 function cargarDatosUsuario() {
-    // Cargar datos del localStorage
-    puntosUsuario = parseInt(localStorage.getItem('puntosUsuario')) || 125;
+    puntosUsuario = parseInt(localStorage.getItem('puntosUsuario')) || 123;
     historialCompras = JSON.parse(localStorage.getItem('historialCompras')) || [];
     
-    // Si no hay historial, crear datos de ejemplo
     if (historialCompras.length === 0) {
         historialCompras = [
             {
                 id: 1,
                 fecha: '2024-09-15',
-                producto: 'Botella Reutilizable (Demo)',
+                producto: 'Botella Reutilizable',
                 precio: 15000,
                 puntos: 15,
                 carbono: -2.3,
@@ -30,35 +29,40 @@ function cargarDatosUsuario() {
             {
                 id: 2,
                 fecha: '2024-09-20',
-                producto: 'Panel Solar (Demo)',
+                producto: 'Panel Solar Portátil',
                 precio: 85000,
                 puntos: 50,
                 carbono: -15.8,
                 categoria: 'Energía Renovable'
             }
         ];
+        localStorage.setItem('historialCompras', JSON.stringify(historialCompras));
     }
 }
 
 function actualizarEstadisticasHome() {
-    // Calcular estadísticas
     const carbonoTotal = historialCompras.reduce((sum, compra) => sum + Math.abs(compra.carbono), 0);
     const arbolesEquiv = (carbonoTotal / 22);
 
-    // Actualizar UI con animación
-    animarNumero('puntosHome', puntosUsuario, '');
-    animarNumero('contadorPuntos', puntosUsuario, '');
-    animarNumero('carbonoHome', carbonoTotal, '', 1);
-    animarNumero('arbolesHome', arbolesEquiv, '', 1);
+    // Actualizar elementos si existen
+    const elementos = {
+        'puntosDisplay': puntosUsuario,
+        'carbonoEvitado': carbonoTotal.toFixed(1),
+        'arbolesEquiv': arbolesEquiv.toFixed(1)
+    };
+
+    Object.entries(elementos).forEach(([id, valor]) => {
+        const elemento = document.getElementById(id);
+        if (elemento) {
+            animarNumero(elemento, valor);
+        }
+    });
 }
 
-function animarNumero(elementId, valorFinal, sufijo = '', decimales = 0) {
-    const elemento = document.getElementById(elementId);
-    if (!elemento) return;
-    
-    let valorActual = 0;
-    const incremento = valorFinal / 50; // 50 pasos de animación
-    const duracionPaso = 30; // milisegundos por paso
+function animarNumero(elemento, valorFinal, duracion = 1500) {
+    const valorInicial = 0;
+    const incremento = valorFinal / (duracion / 50);
+    let valorActual = valorInicial;
     
     const animacion = setInterval(() => {
         valorActual += incremento;
@@ -68,97 +72,108 @@ function animarNumero(elementId, valorFinal, sufijo = '', decimales = 0) {
             clearInterval(animacion);
         }
         
-        elemento.textContent = valorActual.toFixed(decimales) + sufijo;
-    }, duracionPaso);
+        elemento.textContent = typeof valorFinal === 'string' ? 
+            valorActual.toFixed(1) : 
+            Math.floor(valorActual);
+    }, 50);
 }
 
-function animarPuntos() {
-    // Animación de parpadeo para los puntos
-    const puntoselemento = document.getElementById('puntosUsuario');
+function animarElementos() {
+    // Animación escalonada para las cards
+    const cards = document.querySelectorAll('.animate-fade-in');
     
-    setInterval(() => {
-        puntoselemento.classList.add('animate-pulse');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        
         setTimeout(() => {
-            puntosElement.classList.remove('animate-pulse');
-        }, 1000);
-    }, 3000);
+            card.style.transition = 'all 0.6s ease-out';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 200);
+    });
 }
 
-// Función para mostrar notificaciones de bienvenida
-function mostrarBienvenida() {
-    // Solo mostrar si es la primera visita
-    if (!localStorage.getItem('visitaAnterior')) {
-        setTimeout(() => {
-            if (confirm('🌱 ¡Bienvenido a ECO Puntos Verdes! \n\n¿Te gustaría hacer un tour rápido por la tienda?')) {
-                window.location.href = '../tienda/tienda.html';
-            }
-            localStorage.setItem('visitaAnterior', 'true');
-        }, 2000);
+function configurarResponsive() {
+    // Detectar cambios de tamaño de ventana
+    window.addEventListener('resize', () => {
+        actualizarLayoutResponsive();
+    });
+    
+    actualizarLayoutResponsive();
+}
+
+function actualizarLayoutResponsive() {
+    const isMobile = window.innerWidth < 768;
+    const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+    const isDesktop = window.innerWidth >= 1024;
+    
+    // Ajustar navegación según el tamaño
+    if (isDesktop) {
+        document.body.classList.add('desktop-mode');
+        document.body.classList.remove('mobile-mode', 'tablet-mode');
+    } else if (isTablet) {
+        document.body.classList.add('tablet-mode');
+        document.body.classList.remove('mobile-mode', 'desktop-mode');
+    } else {
+        document.body.classList.add('mobile-mode');
+        document.body.classList.remove('tablet-mode', 'desktop-mode');
     }
 }
 
-// Actualizar datos cuando la ventana recibe foco (usuario vuelve de otra página)
+// Funciones de navegación
+function irATienda() {
+    window.location.href = '../tienda/tienda.html';
+}
+
+function irADashboard() {
+    window.location.href = '../dashboard/dashboard.html';
+}
+
+function mostrarDetallesPedido() {
+    alert('Funcionalidad de detalles de pedido - En desarrollo');
+}
+
+function escanearProducto() {
+    alert('Funcionalidad de escáner - En desarrollo');
+}
+
+// Actualizar cuando la ventana recibe foco
 window.addEventListener('focus', () => {
     cargarDatosUsuario();
     actualizarEstadisticasHome();
 });
 
-// Efectos visuales adicionales
-document.addEventListener('DOMContentLoaded', () => {
-    // Efecto de aparición gradual para las tarjetas
-    const tarjetas = document.querySelectorAll('.bg-white');
+// Lazy loading para imágenes (si las hay)
+function configurarLazyLoading() {
+    const imagenes = document.querySelectorAll('img[data-src]');
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, index * 100);
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                observer.unobserve(img);
             }
         });
     });
     
-    tarjetas.forEach(tarjeta => {
-        tarjeta.style.opacity = '0';
-        tarjeta.style.transform = 'translateY(20px)';
-        tarjeta.style.transition = 'all 0.6s ease-out';
-        observer.observe(tarjeta);
-    });
-    
-    // Mostrar bienvenida después de un momento
-    mostrarBienvenida();
-});
+    imagenes.forEach(img => imageObserver.observe(img));
+}
 
-// Funciones de utilidad para efectos visuales
-function crearEfectoConfeti() {
-    // Efecto de confeti cuando se alcanzan ciertos hitos
-    if (puntosUsuario > 0 && puntosUsuario % 50 === 0) {
-        // Crear elementos de confeti (simplificado)
-        const colores = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444'];
-        
-        for (let i = 0; i < 20; i++) {
-            const confeti = document.createElement('div');
-            confeti.style.position = 'fixed';
-            confeti.style.width = '10px';
-            confeti.style.height = '10px';
-            confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
-            confeti.style.left = Math.random() * 100 + 'vw';
-            confeti.style.top = '-10px';
-            confeti.style.borderRadius = '50%';
-            confeti.style.pointerEvents = 'none';
-            confeti.style.zIndex = '9999';
-            
-            document.body.appendChild(confeti);
-            
-            // Animar caída
-            confeti.animate([
-                { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-                { transform: 'translateY(100vh) rotate(360deg)', opacity: 0 }
-            ], {
-                duration: 3000,
-                easing: 'linear'
-            }).onfinish = () => confeti.remove();
-        }
-    }
+// Inicializar lazy loading si hay imágenes
+configurarLazyLoading();
+
+// Service Worker para PWA (opcional)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('SW registered: ', registration);
+            })
+            .catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
 }
