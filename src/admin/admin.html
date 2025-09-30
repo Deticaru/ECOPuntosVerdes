@@ -6,66 +6,206 @@
     <title>ECO Puntos Verdes - Administración</title>
     <link rel="stylesheet" href="../styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="admin.js" defer></script>
+    <style>
+        /* Colores de Walmart */
+        .bg-walmart-blue {
+            background-color: #004c91;
+        }
+        .bg-walmart-yellow {
+            background-color: #ffc220;
+        }
+        .text-walmart-blue {
+            color: #004c91;
+        }
+        .text-walmart-yellow {
+            color: #ffc220;
+        }
+        
+        /* Gradientes personalizados */
+        .bg-gradient-to-br {
+            background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+        }
+        
+        /* Sombras personalizadas */
+        .drop-shadow {
+            filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+        }
+        .drop-shadow-lg {
+            filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+        }
+        
+        /* Efectos de brillo y resplandor */
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(255, 194, 32, 0.3);
+        }
+        
+        /* Animación de entrada suave */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Animación de pulso para sincronización */
+        @keyframes pulse-success {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-pulse-success {
+            animation: pulse-success 0.6s ease-in-out;
+        }
+        
+        /* Animación de spinner */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Estilos del sidebar con opacidades diferenciadas */
+        .sidebar-hover {
+            transition: all 0.3s ease;
+        }
+        .sidebar-hover:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    
+        /* Mantener íconos siempre azul oscuro y texto blanco */
+        .nav-btn svg {
+            color: #1e40af !important;
+        }
+        .nav-btn span {
+            color: #ffffff !important;
+        }
+        
+        /* Efectos de glassmorphism */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Botón seleccionado con opacidad alta para diferenciarlo */
+        .nav-btn.bg-white.bg-opacity-20 {
+            background-color: rgba(255, 255, 255, 0.4) !important;
+        }
+        
+        /* Sidebar con gradiente igual que menu.html */
+        .sidebar-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            position: relative;
+        }
+        
+        .sidebar-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 194, 32, 0.05) 50%, transparent 70%);
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-blue-600 text-white flex flex-col">
+        <aside class="w-64 sidebar-gradient text-white flex flex-col shadow-2xl animate-fadeInUp">
             <!-- Logo/Header -->
-            <div class="p-4 bg-blue-700">
-                <div class="flex items-center space-x-2">
-                    <div class="bg-white rounded-full p-2">
-                        <span class="text-blue-600 font-bold text-sm">ECO</span>
+            <div class="p-6 relative overflow-hidden" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);">
+                <!-- Decorative elements -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-5 rounded-full translate-y-12 -translate-x-12"></div>
+                
+                <div class="relative z-10">
+                    <!-- Logo and Title -->
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="bg-white bg-opacity-20 rounded-full p-3 shadow-lg transform hover:scale-105 transition-transform duration-200">
+                            <span class="text-white font-bold text-lg">🌱</span>
+                        </div>
+                        <div>
+                            <h1 class="font-bold text-xl text-white drop-shadow-lg">ECO</h1>
+                            <h2 class="font-semibold text-lg text-white drop-shadow">PuntosVerdes</h2>
+                        </div>
                     </div>
-                    <span class="font-bold text-lg">PuntosVerdes</span>
-                </div>
-                <div class="mt-2 text-sm opacity-90">
-                    <span class="bg-white text-blue-600 px-2 py-1 rounded text-xs font-medium">Administrador</span>
+                    
+                    <!-- Admin Badge -->
+                    <div class="flex items-center">
+                        <div class="bg-green-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-md">
+                            👑 Administrador
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Navigation Menu -->
             <nav class="flex-1 px-4 py-6">
-                <ul class="space-y-2">
+                <ul class="space-y-3">
                     <li>
-                        <button onclick="showSection('productos')" class="nav-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-700 transition-colors w-full text-left" data-section="productos">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
-                            </svg>
-                            <span>Productos</span>
+                        <button onclick="showSection('productos')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="productos">
+                            <div class="p-2 transition-all">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium text-white">Productos</span>
                         </button>
                     </li>
                     <li>
-                        <button onclick="showSection('usuarios')" class="nav-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-700 transition-colors w-full text-left" data-section="usuarios">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Usuarios</span>
+                        <button onclick="showSection('usuarios')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="usuarios">
+                            <div class="p-2 transition-all">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium text-white">Usuarios</span>
                         </button>
                     </li>
                     <li>
-                        <button onclick="showSection('ventas')" class="nav-btn flex items-center space-x-3 p-3 rounded-lg bg-blue-800 border-l-4 border-white w-full text-left" data-section="ventas">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span>Ventas</span>
+                        <button onclick="showSection('ventas')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="ventas">
+                            <div class="p-2 transition-all">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium text-white">Dashboard</span>
                         </button>
                     </li>
                     <li>
-                        <button onclick="showSection('reportes')" class="nav-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-700 transition-colors w-full text-left" data-section="reportes">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 2a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Reportes</span>
+                        <button onclick="showSection('reportes')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="reportes">
+                            <div class="p-2 transition-all">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 2a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium text-white">Reportes</span>
                         </button>
                     </li>
                     <li>
-                        <button onclick="showSection('inventario')" class="nav-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-700 transition-colors w-full text-left" data-section="inventario">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-                            </svg>
-                            <span>Inventario</span>
+                        <button onclick="showSection('inventario')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="inventario">
+                            <div class="p-2 transition-all">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium text-white">Inventario</span>
                         </button>
                     </li>
                 </ul>
@@ -142,8 +282,16 @@
                     <div class="bg-white rounded-lg shadow">
                         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                             <h2 class="text-lg font-semibold text-gray-800">Productos Ecológicos - Configuración de Puntos</h2>
-                            <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
-                                🔄 Sincronizar con Walmart API
+                            <button id="syncButton" onclick="syncWithWalmart()" class="bg-walmart-blue text-walmart-yellow px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors relative overflow-hidden">
+                                <span id="syncText">🔄 Sincronizar con Walmart API</span>
+                                <span id="syncLoader" class="hidden">
+                                    <svg class="animate-spin h-4 w-4 inline-block mr-2" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Sincronizando...
+                                </span>
+                                <span id="syncSuccess" class="hidden">✅ Sincronizado correctamente</span>
                             </button>
                         </div>
                         <div class="p-6">
@@ -661,8 +809,75 @@
             </div>
         </main>
     </div>
+</body>
+</html>
+        // Función para sincronizar con Walmart API
+        function syncWithWalmart() {
+            const syncButton = document.getElementById('syncButton');
+            const syncText = document.getElementById('syncText');
+            const syncLoader = document.getElementById('syncLoader');
+            const syncSuccess = document.getElementById('syncSuccess');
+            
+            // Deshabilitar el botón y mostrar loading
+            syncButton.disabled = true;
+            syncButton.classList.add('opacity-75', 'cursor-not-allowed');
+            syncText.classList.add('hidden');
+            syncLoader.classList.remove('hidden');
+            
+            // Simular proceso de sincronización (3 segundos)
+            setTimeout(() => {
+                // Ocultar loading y mostrar éxito
+                syncLoader.classList.add('hidden');
+                syncSuccess.classList.remove('hidden');
+                
+                // Añadir animación de éxito
+                syncButton.classList.add('animate-pulse-success', 'bg-green-600');
+                syncButton.classList.remove('bg-walmart-blue');
+                
+                // Después de 2 segundos, volver al estado normal
+                setTimeout(() => {
+                    syncSuccess.classList.add('hidden');
+                    syncText.classList.remove('hidden');
+                    syncButton.disabled = false;
+                    syncButton.classList.remove('opacity-75', 'cursor-not-allowed', 'animate-pulse-success', 'bg-green-600');
+                    syncButton.classList.add('bg-walmart-blue');
+                    
+                    // Mostrar notificación de actualización (opcional)
+                    showNotification('Sincronización completada exitosamente con Walmart API');
+                }, 2000);
+            }, 3000);
+        }
+        
+        // Función para mostrar notificaciones
+        function showNotification(message) {
+            // Crear elemento de notificación
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Mostrar notificación
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Ocultar después de 4 segundos
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 4000);
+        }
 
-    <script>
         // Navigation function
         function showSection(sectionName) {
             // Hide all sections
@@ -680,15 +895,43 @@
             // Update navigation buttons
             const navButtons = document.querySelectorAll('.nav-btn');
             navButtons.forEach(btn => {
-                btn.classList.remove('bg-blue-800', 'border-l-4', 'border-white');
-                btn.classList.add('hover:bg-blue-700');
+                btn.classList.remove('bg-walmart-yellow', 'bg-opacity-20', 'border-l-4', 'border-walmart-yellow', 'glow-effect');
+                btn.classList.add('sidebar-hover', 'glass-effect');
+                
+                // Reset text colors
+                const span = btn.querySelector('span');
+                if (span) {
+                    span.classList.remove('font-semibold', 'text-walmart-yellow', 'text-walmart-blue');
+                    span.classList.add('font-medium', 'text-white');
+                }
+                
+                // Reset icon colors
+                const svg = btn.querySelector('svg');
+                if (svg) {
+                    svg.classList.remove('text-walmart-blue', 'text-walmart-yellow');
+                    svg.classList.add('text-green-400');
+                }
             });
 
             // Highlight active button
             const activeButton = document.querySelector(`[data-section="${sectionName}"]`);
             if (activeButton) {
-                activeButton.classList.add('bg-blue-800', 'border-l-4', 'border-white');
-                activeButton.classList.remove('hover:bg-blue-700');
+                activeButton.classList.remove('sidebar-hover', 'glass-effect');
+                activeButton.classList.add('bg-walmart-yellow', 'bg-opacity-20', 'border-l-4', 'border-walmart-yellow', 'glow-effect');
+                
+                // Style active text
+                const span = activeButton.querySelector('span');
+                if (span) {
+                    span.classList.remove('font-medium', 'text-white');
+                    span.classList.add('font-semibold', 'text-white');
+                }
+                
+                // Style active icon
+                const svg = activeButton.querySelector('svg');
+                if (svg) {
+                    svg.classList.remove('text-green-400');
+                    svg.classList.add('text-walmart-yellow');
+                }
             }
 
             // Update page title
