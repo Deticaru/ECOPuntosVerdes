@@ -177,3 +177,4 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+
