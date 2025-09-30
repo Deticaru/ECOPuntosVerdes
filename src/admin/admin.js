@@ -38,15 +38,36 @@ function syncWithWalmart() {
 }
 
 // Función para mostrar notificaciones
-function showNotification(message) {
+function showNotification(message, type = 'success') {
     // Crear elemento de notificación
     const notification = document.createElement('div');
-    notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300';
+    
+    // Configurar colores y iconos según el tipo
+    let bgColor, icon;
+    switch(type) {
+        case 'info':
+            bgColor = 'bg-blue-600';
+            icon = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                    </svg>`;
+            break;
+        case 'error':
+            bgColor = 'bg-red-600';
+            icon = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>`;
+            break;
+        default:
+            bgColor = 'bg-green-600';
+            icon = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>`;
+    }
+    
+    notification.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300`;
     notification.innerHTML = `
         <div class="flex items-center space-x-2">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-            </svg>
+            ${icon}
             <span>${message}</span>
         </div>
     `;
@@ -461,6 +482,65 @@ window.addEventListener('resize', function() {
     }
 });
 
+// Funciones para menú de administrador
+function toggleAdminMenu() {
+    const dropdown = document.getElementById('adminDropdown');
+    const button = document.getElementById('adminSettingsBtn');
+    
+    if (dropdown && button) {
+        const isShowing = dropdown.classList.contains('show');
+        
+        if (isShowing) {
+            // Ocultar
+            dropdown.classList.remove('show');
+            dropdown.style.display = 'none';
+        } else {
+            // Calcular posición del botón
+            const buttonRect = button.getBoundingClientRect();
+            
+            // Mostrar
+            dropdown.classList.add('show');
+            dropdown.style.display = 'block';
+            dropdown.style.position = 'fixed';
+            dropdown.style.top = (buttonRect.bottom + 8) + 'px'; // 8px de margen debajo del botón
+            dropdown.style.left = (buttonRect.right - 130) + 'px'; // 130px para moverlo aún más a la derecha
+            dropdown.style.zIndex = '99999';
+            dropdown.style.background = 'white';
+            dropdown.style.border = '1px solid #e5e7eb';
+            dropdown.style.borderRadius = '0.5rem';
+            dropdown.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+            dropdown.style.width = '12rem';
+            dropdown.style.opacity = '1';
+            dropdown.style.visibility = 'visible';
+            dropdown.style.transform = 'scale(1)';
+            
+            console.log('Button position:', buttonRect);
+            console.log('Dropdown positioned at:', dropdown.style.top, dropdown.style.left);
+        }
+    }
+}
+
+function logout() {
+    // Simular cierre de sesión
+    showNotification('Cerrando sesión...', 'info');
+    
+    setTimeout(() => {
+        // Redirigir al login (ajustar la ruta según tu estructura)
+        window.location.href = '../login/login.html';
+    }, 1500);
+}
+
+// Cerrar menú admin al hacer clic fuera
+document.addEventListener('click', function(e) {
+    const dropdown = document.getElementById('adminDropdown');
+    const settingsBtn = document.getElementById('adminSettingsBtn');
+    
+    if (dropdown && !dropdown.contains(e.target) && !settingsBtn.contains(e.target)) {
+        dropdown.classList.remove('show');
+        dropdown.style.display = 'none';
+    }
+});
+
 // Inicialización cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
     // Mostrar sección ventas por defecto
@@ -470,5 +550,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.querySelector('.sidebar-overlay');
     if (overlay) {
         overlay.addEventListener('click', closeSidebar);
+    }
+    
+    // Debug para verificar elementos del admin dropdown
+    const adminBtn = document.getElementById('adminSettingsBtn');
+    const adminDropdown = document.getElementById('adminDropdown');
+    console.log('Admin button:', adminBtn);
+    console.log('Admin dropdown:', adminDropdown);
+    
+    if (adminDropdown) {
+        console.log('Dropdown initial styles:', adminDropdown.style.cssText);
+        console.log('Dropdown classes:', adminDropdown.className);
     }
 });
