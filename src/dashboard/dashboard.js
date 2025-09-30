@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarEstadisticas();
     crearGraficoMensual();
     cargarHistorial();
+
+    // 🔔 Enganchar la campana para abrir el modal de notificaciones
+    const btnNotificaciones = document.getElementById("btnNotificaciones");
+    if (btnNotificaciones) {
+        btnNotificaciones.addEventListener("click", abrirNotificaciones);
+    }
 });
 
 function cargarDatos() {
@@ -151,6 +157,36 @@ function cargarHistorial() {
     }).join('');
 }
 
+// 🔔 Funciones del modal de notificaciones
+function abrirNotificaciones() {
+    document.getElementById("modalNotificaciones").classList.remove("hidden");
+}
+
+function cerrarNotificaciones() {
+    document.getElementById("modalNotificaciones").classList.add("hidden");
+}
+
+// Cerrar si se hace clic fuera del modal
+document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("modalNotificaciones");
+    if (modal) {
+        modal.addEventListener("click", (e) => {
+            if (e.target.id === "modalNotificaciones") {
+                cerrarNotificaciones();
+            }
+        });
+    }
+
+    const form = document.getElementById("formNotificaciones");
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            alert("✅ Preferencias de notificaciones guardadas.");
+            cerrarNotificaciones();
+        });
+    }
+});
+
 window.addEventListener('focus', () => {
     cargarDatos();
     actualizarEstadisticas();
@@ -160,3 +196,73 @@ window.addEventListener('focus', () => {
     }
     cargarHistorial();
 });
+// Datos de cupones de prueba
+const cupones = [
+    { id: 1, nombre: "5% Descuento", puntos: 10, activo: true, app: "EcoPuntos Verdes" },
+    { id: 2, nombre: "10% Walmart", puntos: 25, activo: true, app: "Walmart" },
+    { id: 3, nombre: "Envío Gratis", puntos: 15, activo: false, app: "EcoPuntos Verdes" }
+];
+
+// Canjear cupón
+function canjearCupon(id) {
+    const cupon = cupones.find(c => c.id === id);
+    if (!cupon || !cupon.activo) {
+        alert("❌ Este cupón ya no está disponible.");
+        return;
+    }
+    if (puntosUsuario < cupon.puntos) {
+        alert("❌ No tienes puntos suficientes para canjear este cupón.");
+        return;
+    }
+
+    puntosUsuario -= cupon.puntos;
+    localStorage.setItem('puntosUsuario', puntosUsuario);
+    alert(`✅ Cupón canjeado: ${cupon.nombre} (${cupon.app})`);
+    cargarCupones();
+    actualizarEstadisticas();
+}
+
+// Abrir modal de cupones
+function abrirCupones() {
+    document.getElementById("modalCupones").classList.remove("hidden");
+    cargarCupones();
+}
+
+// Cerrar modal de cupones
+function cerrarCupones() {
+    document.getElementById("modalCupones").classList.add("hidden");
+}
+
+// Cargar lista de cupones en el modal (versión moderna)
+function cargarCupones() {
+    const lista = document.getElementById("listaCupones");
+    lista.innerHTML = "";
+
+    cupones.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "flex justify-between items-center p-3 bg-gray-50 rounded-lg";
+
+        const btn = document.createElement("button");
+        btn.textContent = "Canjear";
+        btn.className = "px-3 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600";
+
+        if (puntosUsuario < c.puntos || !c.activo) {
+            btn.disabled = true;
+            btn.classList.add("opacity-50", "cursor-not-allowed");
+        } else {
+            btn.addEventListener("click", () => canjearCupon(c.id));
+        }
+
+        div.innerHTML = `
+            <div>
+                <div class="font-semibold">${c.nombre}</div>
+                <div class="text-xs text-gray-500">${c.puntos} puntos - ${c.app}</div>
+            </div>
+        `;
+        div.appendChild(btn);
+        lista.appendChild(div);
+    });
+}
+
+// Botón para abrir modal
+document.getElementById('btnCupones').addEventListener('click', abrirCupones);
