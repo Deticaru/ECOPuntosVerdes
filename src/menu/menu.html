@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="../styles/app-styles.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Header Responsivo -->
@@ -16,7 +18,8 @@
             <div class="desktop-header-layout">
                 <!-- Navegación izquierda -->
                 <div class="flex items-center space-x-4">
-                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable lg:hidden">
+                    <button
+                        class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable lg:hidden">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                     <div class="flex items-center space-x-3">
@@ -29,10 +32,15 @@
                 <!-- Navegación desktop (oculta en móvil) -->
                 <nav class="hide-mobile">
                     <div class="flex space-x-6">
-                        <a href="../home/home.html" class="px-4 py-2 bg-white bg-opacity-20 rounded-lg font-semibold">Inicio</a>
-                        <a href="../tienda/tienda.html" class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Tienda</a>
-                        <a href="../dashboard/dashboard.html" class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Mi Cuenta</a>
-                        <a href="#" class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Ayuda</a>
+                        <a href="../home/home.html"
+                            class="px-4 py-2 bg-white bg-opacity-20 rounded-lg font-semibold">Inicio</a>
+                        <a href="../tienda/tienda.html"
+                            class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Tienda</a>
+                        <a href="../dashboard/dashboard.html"
+                            class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Mi
+                            Cuenta</a>
+                        <a href="#"
+                            class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Ayuda</a>
                     </div>
                 </nav>
 
@@ -44,9 +52,23 @@
                     <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
                         <i class="fas fa-map-marker-alt text-xl"></i>
                     </button>
-                    <button class="hide-mobile p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
-                        <i class="fas fa-user-circle text-xl"></i>
-                    </button>
+                    <div class="relative">
+                        <button onclick="toggleUserMenu()"
+                            class="hide-mobile p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
+                            <i class="fas fa-user-circle text-xl"></i>
+                        </button>
+
+                        <!-- Menú desplegable -->
+                        <div id="userMenu"
+                            class="hidden absolute right-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-lg z-50">
+                            <a href="../dashboard/dashboard.html" class="block px-4 py-2 hover:bg-gray-100">Mi
+                                Cuenta</a>
+                            <a href="#" onclick="abrirNotificaciones()" class="block px-4 py-2 hover:bg-gray-100">⚙️
+                                Configuración de Notificaciones</a>
+                            <a href="../login/login.html" class="block px-4 py-2 hover:bg-gray-100">Cerrar Sesión</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -59,7 +81,8 @@
                             <span class="text-3xl lg:text-4xl font-bold text-blue-600" id="puntosDisplay">123</span>
                             <span class="text-gray-600 ml-2 font-medium text-lg">Puntos Verdes</span>
                         </div>
-                        <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full font-semibold transition-colors shadow-md clickeable">
+                        <button
+                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full font-semibold transition-colors shadow-md clickeable">
                             Canjear
                         </button>
                     </div>
@@ -97,16 +120,18 @@
             <div class="responsive-grid mb-8">
                 <!-- Escanear producto -->
                 <div class="card hover:shadow-lg transition-all clickeable animate-fade-in cursor-pointer"
-                  onclick="window.location.href='../escaneo/escaneo.html'">
+                    onclick="window.location.href='../escaneo/escaneo.html'">
                     <div class="flex items-center lg:flex-col lg:text-center">
                         <div class="bg-blue-100 rounded-2xl p-4 mr-4 lg:mr-0 lg:mb-4">
                             <i class="fas fa-qrcode text-blue-600 text-2xl lg:text-3xl"></i>
                         </div>
                         <div>
                             <div class="font-semibold text-gray-800 text-lg lg:text-xl">Escanear</div>
-                            <div class="text-sm text-gray-600 mt-1">Escanea códigos de barras para obtener más detalles</div>
-                            <a href="../escaneo/escaneo.html" class="hide-mobile mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                              Escanear
+                            <div class="text-sm text-gray-600 mt-1">Escanea códigos de barras para obtener más detalles
+                            </div>
+                            <a href="../escaneo/escaneo.html"
+                                class="hide-mobile mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                Escanear
                             </a>
                         </div>
                     </div>
@@ -120,7 +145,8 @@
                         <div>
                             <div class="font-semibold text-gray-800 text-lg lg:text-xl">Pedido de supermercado</div>
                             <div class="text-sm text-gray-600 mt-1">8 de abril - Productos ecológicos</div>
-                            <button class="hide-mobile mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                            <button
+                                class="hide-mobile mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
                                 Ver detalles
                             </button>
                         </div>
@@ -135,7 +161,21 @@
                         </div>
                         <div class="font-semibold text-gray-800 text-xl">Tu Impacto</div>
                         <div class="text-2xl font-bold text-green-600 mt-2" id="arbolesEquiv">0.3</div>
-                        <div class="text-sm text-gray-600">Árboles equivalentes plantados</div>
+                        <div class="text-sm text-gray-600 mb-4">Árboles equivalentes plantados</div>
+
+                        <!-- Botones de acción -->
+                        <div class="flex justify-center gap-3">
+                            <button
+                                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm"
+                                onclick="exportarReporte()">
+                                <i class="fas fa-file-export mr-2"></i> Exportar Reporte
+                            </button>
+                            <button
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                                onclick="compartirReporte()">
+                                <i class="fas fa-share-alt mr-2"></i> Compartir
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -147,10 +187,12 @@
                         </div>
                         <div class="font-semibold text-gray-800 text-xl">Acciones Rápidas</div>
                         <div class="mt-4 space-y-2">
-                            <button class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm">
+                            <button
+                                class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm">
                                 Calcular Huella
                             </button>
-                            <button class="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm">
+                            <button
+                                class="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm">
                                 Ver Estadísticas
                             </button>
                         </div>
@@ -165,10 +207,12 @@
                     Cada compra ecológica cuenta. Contribuye a un futuro más sostenible.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="../tienda/tienda.html" class="bg-white text-green-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors clickeable">
+                    <a href="../tienda/tienda.html"
+                        class="bg-white text-green-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors clickeable">
                         🛍️ Explorar Tienda
                     </a>
-                    <a href="../dashboard/dashboard.html" class="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white hover:text-blue-600 transition-colors clickeable">
+                    <a href="../dashboard/dashboard.html"
+                        class="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white hover:text-blue-600 transition-colors clickeable">
                         📊 Ver Mi Progreso
                     </a>
                 </div>
@@ -178,30 +222,88 @@
         <!-- Navegación inferior (móvil) / Footer (desktop) -->
         <div class="bottom-nav">
             <div class="flex justify-around lg:justify-center items-center">
-                <a href="#" class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+                <a href="#" id="btnCupones"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
                     <i class="fas fa-gift text-yellow-500 text-lg mb-1 lg:mb-0"></i>
                     <span class="text-xs lg:text-sm text-gray-600">Cupones</span>
                 </a>
-                <a href="../tienda/tienda.html" class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+
+                <a href="../tienda/tienda.html"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
                     <i class="fas fa-tag text-red-500 text-lg mb-1 lg:mb-0"></i>
                     <span class="text-xs lg:text-sm text-gray-600">Tienda</span>
                 </a>
-                <a href="../menu/menu.html" class="flex flex-col items-center p-2 bg-blue-50 rounded-xl clickeable lg:flex-row lg:space-x-2">
+                <a href="../menu/menu.html"
+                    class="flex flex-col items-center p-2 bg-blue-50 rounded-xl clickeable lg:flex-row lg:space-x-2">
                     <i class="fas fa-home text-blue-500 text-lg mb-1 lg:mb-0"></i>
                     <span class="text-xs lg:text-sm text-blue-500 font-semibold">Inicio</span>
                 </a>
-                <a href="#" class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+                <a href="#"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
                     <i class="fas fa-heart text-gray-400 text-lg mb-1 lg:mb-0"></i>
                     <span class="text-xs lg:text-sm text-gray-600">Favoritos</span>
                 </a>
-                <a href="../dashboard/dashboard.html" class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+                <a href="../dashboard/dashboard.html"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
                     <i class="fas fa-user text-gray-400 text-lg mb-1 lg:mb-0"></i>
                     <span class="text-xs lg:text-sm text-gray-600">Cuenta</span>
                 </a>
             </div>
         </div>
     </div>
+    <!-- Modal Configuración Notificaciones -->
+    <div id="modalNotificaciones"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 class="text-xl font-bold mb-4">Configuración de Notificaciones</h2>
+
+            <form id="formNotificaciones" class="space-y-3">
+                <label class="flex items-center">
+                    <input type="checkbox" name="puntos" class="mr-2">
+                    Alertas de puntos obtenidos
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="promociones" class="mr-2">
+                    Promociones y descuentos
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="productos" class="mr-2">
+                    Productos sostenibles recomendados
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="habitos" class="mr-2">
+                    Consejos de consumo responsable
+                </label>
+
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="cerrarNotificaciones()"
+                        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancelar</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Cupones -->
+    <div id="modalCupones" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <h2 class="text-xl font-bold mb-4">Promociones y Cupones</h2>
+
+            <div id="listaCupones" class="space-y-3 max-h-64 overflow-y-auto">
+                <!-- Se llenará dinámicamente desde JS -->
+            </div>
+
+            <div class="flex justify-end space-x-3 mt-4">
+                <button type="button" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+                    onclick="cerrarCupones()">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script src="menu.js"></script>
 </body>
+
 </html>
