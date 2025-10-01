@@ -22,9 +22,18 @@
                 </button>
                 <h1 class="text-lg font-semibold">Mi Cuenta</h1>
                 <div class="flex space-x-3">
-                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
-                        <i class="fas fa-cog text-xl"></i>
-                    </button>
+                    <div class="relative">
+                        <button onclick="toggleSettingsMenu()" class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
+                            <i class="fas fa-cog text-xl"></i>
+                        </button>
+                        
+                        <!-- Dropdown de configuración -->
+                        <div id="settingsMenu" class="hidden absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg border border-gray-200" style="z-index: 9999; position: absolute; top: 100%; right: 0; background: white; min-width: 160px;">
+                            <a href="../login/login.html" class="block px-4 py-3 hover:bg-gray-100 text-red-600 rounded-lg">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+                            </a>
+                        </div>
+                    </div>
 
                     <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable" id="btnNotificaciones">
                         <i class="fas fa-bell text-xl"></i>
@@ -196,7 +205,7 @@
 </div>
 
 
-    <script type="module" src="dashboard.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 
 </html>

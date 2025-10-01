@@ -3,6 +3,17 @@ let puntosUsuario = 0;
 let historialCompras = [];
 let graficoMensual = null;
 
+// ⚙️ Función del dropdown de configuración (debe estar en scope global)
+function toggleSettingsMenu() {
+    const menu = document.getElementById("settingsMenu");
+    if (menu) {
+        menu.classList.toggle("hidden");
+    }
+}
+
+// Asegurar que la función esté en el scope global
+window.toggleSettingsMenu = toggleSettingsMenu;
+
 document.addEventListener('DOMContentLoaded', () => {
     cargarDatos();
     actualizarEstadisticas();
@@ -156,6 +167,16 @@ function cargarHistorial() {
         `;
     }).join('');
 }
+
+// Cerrar el dropdown cuando se hace clic fuera
+document.addEventListener('click', function(e) {
+    const settingsMenu = document.getElementById('settingsMenu');
+    const settingsButton = e.target.closest('button[onclick*="toggleSettingsMenu"]');
+    
+    if (settingsMenu && !settingsButton && !settingsMenu.contains(e.target)) {
+        settingsMenu.classList.add('hidden');
+    }
+});
 
 // 🔔 Funciones del modal de notificaciones
 function abrirNotificaciones() {
