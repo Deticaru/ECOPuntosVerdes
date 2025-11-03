@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,205 +7,267 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <script type="module" crossorigin src="/ECOPuntosVerdes/assets/dashboard-Dokehy-x.js"></script>
+  <script type="module" crossorigin src="/ECOPuntosVerdes/assets/dashboard-Bbx2KEwM.js"></script>
   <link rel="modulepreload" crossorigin href="/ECOPuntosVerdes/assets/modulepreload-polyfill-B5Qt9EMX.js">
   <link rel="stylesheet" crossorigin href="/ECOPuntosVerdes/assets/app-styles-DxmZkBXs.css">
 </head>
-
 <body>
     <div class="app-container">
-        <!-- Header VISIBLE y CLICKEABLE -->
-        <div class="app-header gradient-bg text-white px-4 py-6 rounded-b-3xl">
-            <div class="flex items-center justify-between mb-6">
-                <button onclick="window.history.back()"
-                    class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
-                    <i class="fas fa-arrow-left text-xl"></i>
-                </button>
-                <h1 class="text-lg font-semibold">Mi Cuenta</h1>
+        <!-- Header con información del período -->
+        <div class="app-header gradient-bg text-white">
+            <div class="desktop-header-layout">
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.history.back()" class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold">Mi Cuenta Ecológica</h1>
+                        <p class="text-sm opacity-90" id="periodoActual">Período: Octubre 2025</p>
+                    </div>
+                </div>
+                
                 <div class="flex space-x-3">
-                    <div class="relative">
-                        <button onclick="toggleSettingsMenu()" class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
-                            <i class="fas fa-cog text-xl"></i>
-                        </button>
-                        
-                        <!-- Dropdown de configuración -->
-                        <div id="settingsMenu" class="hidden absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg border border-gray-200" style="z-index: 9999; position: absolute; top: 100%; right: 0; background: white; min-width: 160px;">
-                            <a href="../login/login.html" class="block px-4 py-3 hover:bg-gray-100 text-red-600 rounded-lg">
-                                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
-                            </a>
+                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable" title="Configuración">
+                        <i class="fas fa-cog text-xl"></i>
+                    </button>
+                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable" title="Exportar datos">
+                        <i class="fas fa-download text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats detallados con formato correcto -->
+            <div class="responsive-grid mt-6">
+                <div class="card bg-white bg-opacity-20 text-center">
+                    <div class="text-3xl font-bold" id="totalPuntos">123</div>
+                    <div class="text-sm opacity-90">Puntos Verdes Acumulados</div>
+                    <div class="text-xs opacity-75 mt-1">+12% vs mes anterior</div>
+                </div>
+                <div class="card bg-white bg-opacity-20 text-center">
+                    <div class="text-3xl font-bold" id="carbonoEvitado">5,8</div>
+                    <div class="text-sm opacity-90">kg CO₂ Evitados</div>
+                    <div class="text-xs opacity-75 mt-1">Equivale a 0,26 árboles</div>
+                </div>
+                <div class="card bg-white bg-opacity-20 text-center">
+                    <div class="text-3xl font-bold" id="totalCompras">2</div>
+                    <div class="text-sm opacity-90">Compras Ecológicas</div>
+                    <div class="text-xs opacity-75 mt-1">Promedio: $50.000</div>
+                </div>
+                <div class="hide-mobile card bg-white bg-opacity-20 text-center">
+                    <div class="text-3xl font-bold" id="ahorroTotal">$15.250</div>
+                    <div class="text-sm opacity-90">Ahorro Total</div>
+                    <div class="text-xs opacity-75 mt-1">En productos sustentables</div>
+                </div>
+            </div>
+
+            <!-- Usuario info mejorado -->
+            <div class="card bg-white text-gray-800 mt-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="bg-green-100 rounded-full p-3 mr-3">
+                            <i class="fas fa-user text-green-600 text-lg"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-lg">Juan Pérez</div>
+                            <div class="text-sm text-gray-600">Eco-Usuario Activo 🌱 • Nivel Bronce</div>
+                            <div class="text-xs text-gray-500">Miembro desde: Agosto 2025</div>
                         </div>
                     </div>
-
-                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable" id="btnNotificaciones">
-                        <i class="fas fa-bell text-xl"></i>
-                    </button>
-
-                </div>
-            </div>
-
-            <!-- Stats rápidos -->
-            <div class="grid grid-cols-3 gap-3 mb-4">
-                <div class="bg-white bg-opacity-20 rounded-xl p-3 text-center">
-                    <div class="text-2xl font-bold" id="totalPuntos">123</div>
-                    <div class="text-xs opacity-90">Puntos</div>
-                </div>
-                <div class="bg-white bg-opacity-20 rounded-xl p-3 text-center">
-                    <div class="text-2xl font-bold" id="carbonoEvitado">5.8</div>
-                    <div class="text-xs opacity-90">kg CO₂</div>
-                </div>
-                <div class="bg-white bg-opacity-20 rounded-xl p-3 text-center">
-                    <div class="text-2xl font-bold" id="totalCompras">2</div>
-                    <div class="text-xs opacity-90">Compras</div>
-                </div>
-            </div>
-
-            <!-- Usuario info -->
-            <div class="bg-white text-gray-800 rounded-2xl p-4">
-                <div class="flex items-center">
-                    <div class="bg-green-100 rounded-full p-3 mr-3">
-                        <i class="fas fa-user text-green-600 text-lg"></i>
-                    </div>
-                    <div>
-                        <div class="font-semibold">Juan Pérez</div>
-                        <div class="text-sm text-gray-600">Eco-Usuario Activo 🌱</div>
+                    <div class="text-right">
+                        <div class="text-2xl">🏆</div>
+                        <div class="text-xs text-gray-500">Ranking: #47</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Contenido -->
-        <div class="app-content p-4 mb-24 md:mb-0">
-            <!-- Resto del contenido igual... -->
-            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
-                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
-                    <i class="fas fa-chart-line text-green-500 mr-2"></i>
-                    Progreso Mensual
-                </h3>
-                <div class="h-32">
+        <!-- Contenido principal -->
+        <div class="app-content">
+            <!-- Gráfico mensual con explicación detallada -->
+            <div class="card mb-6">
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center">
+                        <i class="fas fa-chart-line text-green-500 mr-3"></i>
+                        Evolución de Puntos Verdes
+                    </h3>
+                    <div class="text-sm text-gray-600 mb-4">
+                        <p><strong>Qué mide:</strong> Puntos ecológicos ganados por compras sustentables</p>
+                        <p><strong>Período:</strong> <span id="graficoFechas">Julio - Octubre 2025</span></p>
+                        <p><strong>Meta mensual:</strong> 150 puntos (+22% restante)</p>
+                    </div>
+                </div>
+                <div class="h-64 relative">
                     <canvas id="graficoMensual"></canvas>
                 </div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
-                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
-                    <i class="fas fa-globe text-blue-500 mr-2"></i>
-                    Tu Impacto Ambiental
-                </h3>
-                <div class="grid grid-cols-2 gap-3" id="metricasImpacto">
-                    <!-- Se llena dinámicamente -->
+                <div class="mt-4 grid grid-cols-3 gap-4 text-center text-sm">
+                    <div>
+                        <div class="font-bold text-green-600" id="puntosMesActual">123</div>
+                        <div class="text-gray-500">Este mes</div>
+                    </div>
+                    <div>
+                        <div class="font-bold text-blue-600" id="promedioMensual">98,7</div>
+                        <div class="text-gray-500">Promedio mensual</div>
+                    </div>
+                    <div>
+                        <div class="font-bold text-purple-600" id="crecimientoMensual">+12,5%</div>
+                        <div class="text-gray-500">Crecimiento</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
-                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
-                    <i class="fas fa-history text-purple-500 mr-2"></i>
-                    Compras Recientes
+            <!-- Impacto ambiental detallado -->
+            <div class="card mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-globe text-blue-500 mr-3"></i>
+                    Tu Impacto Ambiental Mensual
                 </h3>
-                <div id="historialCompras" class="space-y-3">
-                    <!-- Se carga dinámicamente -->
+                <div class="text-sm text-gray-600 mb-4">
+                    <p><strong>Período de medición:</strong> Octubre 2025</p>
+                    <p><strong>Metodología:</strong> Cálculo basado en huella de carbono de productos adquiridos</p>
                 </div>
-                <a href="../historial/historial.html" 
-                   class="block w-full mt-3 bg-purple-500 text-white px-4 py-2 rounded-lg text-sm clickeable hover:bg-purple-600 transition-colors text-center">
-                    <i class="fas fa-chart-line mr-2"></i>
-                    Ver Historial Completo
-                </a>
-                <div id="sinCompras" class="text-center py-6 text-gray-500 hidden">
-                    <i class="fas fa-shopping-cart text-3xl mb-2"></i>
-                    <p class="text-sm">No hay compras aún</p>
-                    <a href="../tienda/tienda.html"
-                        class="inline-block mt-3 bg-green-500 text-white px-4 py-2 rounded-lg text-sm clickeable">
-                        Ir a Tienda
+                
+                <div class="grid grid-cols-2 gap-4" id="metricasImpacto">
+                    <div class="bg-green-50 p-4 rounded-xl text-center">
+                        <i class="fas fa-leaf text-green-500 text-2xl mb-2"></i>
+                        <div class="font-bold text-2xl text-green-700" id="co2Evitado">5,8</div>
+                        <div class="text-sm text-gray-600">kg CO₂ evitados</div>
+                        <div class="text-xs text-green-600 mt-1">↑ 15,2% vs mes anterior</div>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-xl text-center">
+                        <i class="fas fa-tree text-blue-500 text-2xl mb-2"></i>
+                        <div class="font-bold text-2xl text-blue-700" id="arbolesEquiv">0,26</div>
+                        <div class="text-sm text-gray-600">árboles equivalentes</div>
+                        <div class="text-xs text-blue-600 mt-1">Compensación forestal</div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 p-4 rounded-xl text-center">
+                        <i class="fas fa-water text-yellow-500 text-2xl mb-2"></i>
+                        <div class="font-bold text-2xl text-yellow-700" id="aguaAhorrada">125,4</div>
+                        <div class="text-sm text-gray-600">litros agua ahorrados</div>
+                        <div class="text-xs text-yellow-600 mt-1">En producción</div>
+                    </div>
+                    
+                    <div class="bg-purple-50 p-4 rounded-xl text-center">
+                        <i class="fas fa-recycle text-purple-500 text-2xl mb-2"></i>
+                        <div class="font-bold text-2xl text-purple-700" id="residuosReducidos">2,3</div>
+                        <div class="text-sm text-gray-600">kg residuos evitados</div>
+                        <div class="text-xs text-purple-600 mt-1">Packaging sustentable</div>
+                    </div>
+                </div>
+
+                <!-- Gráfico de distribución -->
+                <div class="mt-6">
+                    <h4 class="font-semibold mb-3">Distribución del Impacto por Categoría</h4>
+                    <div class="h-48">
+                        <canvas id="graficoImpacto"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historial de compras mejorado -->
+            <div class="card mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-history text-purple-500 mr-3"></i>
+                    Historial de Compras Ecológicas
+                </h3>
+                <div class="text-sm text-gray-600 mb-4">
+                    <p><strong>Período:</strong> Últimos 30 días • <strong>Total invertido:</strong> $100.000</p>
+                </div>
+                
+                <div id="historialCompras" class="space-y-4">
+                    <!-- Se carga dinámicamente con formato correcto -->
+                </div>
+                
+                <div id="sinCompras" class="text-center py-8 text-gray-500 hidden">
+                    <i class="fas fa-shopping-cart text-4xl mb-4"></i>
+                    <p class="text-lg mb-2">No hay compras registradas</p>
+                    <p class="text-sm mb-4">Comienza tu journey ecológico</p>
+                    <a href="../tienda/tienda.html" class="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors">
+                        Explorar Tienda Ecológica
                     </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
-                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
-                    <i class="fas fa-trophy text-yellow-500 mr-2"></i>
+            <!-- Logros con porcentajes -->
+            <div class="card mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-trophy text-yellow-500 mr-3"></i>
                     Logros Ecológicos
                 </h3>
-                <div class="grid grid-cols-3 gap-2">
-                    <div class="text-center p-3 bg-green-50 rounded-lg">
-                        <i class="fas fa-seedling text-green-500 text-2xl mb-1"></i>
-                        <div class="text-xs font-semibold">Primera Compra</div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-green-50 p-4 rounded-xl text-center border-2 border-green-200">
+                        <i class="fas fa-seedling text-green-500 text-3xl mb-3"></i>
+                        <div class="font-bold text-green-800">Primera Compra Verde</div>
+                        <div class="text-sm text-green-600 mt-2">✓ Completado</div>
+                        <div class="text-xs text-gray-500 mt-1">Desbloqueado: 15 Sep 2025</div>
                     </div>
-                    <div class="text-center p-3 bg-blue-50 rounded-lg">
-                        <i class="fas fa-recycle text-blue-500 text-2xl mb-1"></i>
-                        <div class="text-xs font-semibold">Eco Reciclador</div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-xl text-center border-2 border-blue-200">
+                        <i class="fas fa-recycle text-blue-500 text-3xl mb-3"></i>
+                        <div class="font-bold text-blue-800">Eco Reciclador</div>
+                        <div class="text-sm text-blue-600 mt-2">✓ Completado</div>
+                        <div class="text-xs text-gray-500 mt-1">5 productos reciclables</div>
                     </div>
-                    <div class="text-center p-3 bg-gray-100 rounded-lg opacity-50">
-                        <i class="fas fa-medal text-gray-400 text-2xl mb-1"></i>
-                        <div class="text-xs">100 Puntos</div>
+                    
+                    <div class="bg-gray-100 p-4 rounded-xl text-center border-2 border-gray-300">
+                        <i class="fas fa-medal text-gray-400 text-3xl mb-3"></i>
+                        <div class="font-bold text-gray-600">100 Puntos Verdes</div>
+                        <div class="text-sm text-gray-500 mt-2">77 / 100 (77%)</div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 77%"></div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">23 puntos restantes</div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Comparativa mensual -->
+            <div class="card">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-chart-bar text-indigo-500 mr-3"></i>
+                    Comparativa Mensual 2025
+                </h3>
+                
+                <div class="h-64">
+                    <canvas id="graficoComparativo"></canvas>
+                </div>
+                
+                <div class="mt-4 text-sm text-gray-600">
+                    <p><strong>Análisis:</strong> Octubre muestra un crecimiento del 12,5% en actividad ecológica</p>
+                    <p><strong>Mejor mes:</strong> Septiembre (156 puntos, +26,8%)</p>
+                    <p><strong>Tendencia:</strong> Crecimiento sostenido del 8,3% mensual promedio</p>
                 </div>
             </div>
         </div>
 
-        <!-- Navegación inferior FUNCIONAL -->
-        <div class="bottom-nav px-4 py-3">
+        <!-- Navegación -->
+        <div class="bottom-nav">
             <div class="flex justify-around items-center">
-               <a href="#" id="btnCupones"
-                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
-                    <i class="fas fa-gift text-yellow-500 text-lg mb-1 lg:mb-0"></i>
-                    <span class="text-xs lg:text-sm text-gray-600">Cupones</span>
+                <a href="#" class="flex flex-col items-center p-2">
+                    <i class="fas fa-gift text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Cupones</span>
                 </a>
-
-                <a href="../tienda/tienda.html" class="flex flex-col items-center p-2 clickeable">
+                <a href="../tienda/tienda.html" class="flex flex-col items-center p-2">
                     <i class="fas fa-tag text-gray-400 text-lg mb-1"></i>
                     <span class="text-xs text-gray-600">Tienda</span>
                 </a>
-                <a href="../menu/menu.html" class="flex flex-col items-center p-2 clickeable">
+                <a href="../home/home.html" class="flex flex-col items-center p-2">
                     <i class="fas fa-home text-gray-400 text-lg mb-1"></i>
                     <span class="text-xs text-gray-600">Inicio</span>
                 </a>
-                <a href="#" class="flex flex-col items-center p-2 clickeable">
+                <a href="#" class="flex flex-col items-center p-2">
                     <i class="fas fa-heart text-gray-400 text-lg mb-1"></i>
                     <span class="text-xs text-gray-600">Favoritos</span>
                 </a>
-                <a href="../dashboard/dashboard.html"
-                    class="flex flex-col items-center p-2 bg-blue-50 rounded-xl clickeable">
+                <a href="../dashboard/dashboard.html" class="flex flex-col items-center p-2 bg-blue-50 rounded-xl">
                     <i class="fas fa-user text-blue-500 text-lg mb-1"></i>
                     <span class="text-xs text-blue-500 font-semibold">Cuenta</span>
                 </a>
             </div>
         </div>
     </div>
-  <div id="modalNotificaciones" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-  <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
-    <h2 class="text-xl font-bold mb-4">Configuración de Notificaciones</h2>
-    <form id="formNotificaciones" class="space-y-4">
-      <div>
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" name="puntos" class="form-checkbox">
-          <span>Puntos verdes y logros</span>
-        </label>
-      </div>
-      <div>
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" name="promociones" class="form-checkbox">
-          <span>Promociones y descuentos</span>
-        </label>
-      </div>
-      <div>
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" name="productos" class="form-checkbox">
-          <span>Productos sostenibles recomendados</span>
-        </label>
-      </div>
-
-      <div class="flex justify-end space-x-3 mt-4">
-        <button type="button" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400" onclick="cerrarNotificaciones()">
-          Cancelar
-        </button>
-        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-          Guardar
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-
 
 </body>
-
 </html>

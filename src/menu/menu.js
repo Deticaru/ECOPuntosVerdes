@@ -305,3 +305,13 @@ function canjearCupon(id) {
     actualizarEstadisticas();
 }
 document.getElementById('btnCupones').addEventListener('click', abrirCupones);
+
+// Exponer funciones usadas por atributos onclick cuando se usa type="module"
+window.toggleUserMenu = toggleUserMenu;
+window.abrirNotificaciones = abrirNotificaciones;
+window.cerrarNotificaciones = cerrarNotificaciones;
+window.exportarReporte = exportarReporte;
+window.compartirReporte = compartirReporte;
+window.abrirCupones = abrirCupones;
+window.cerrarCupones = cerrarCupones;
+window.canjearCupon = canjearCupon;

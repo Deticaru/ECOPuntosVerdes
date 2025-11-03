@@ -563,3 +563,17 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Dropdown classes:', adminDropdown.className);
     }
 });
+
+// Exponer funciones globales para los atributos onclick en HTML (script como módulo)
+Object.assign(window, {
+    syncWithWalmart,
+    showSection,
+    openAddProductModal,
+    closeAddProductModal,
+    toggleSidebar,
+    closeSidebar,
+    toggleAdminMenu,
+    logout,
+    generateReport,
+    downloadReport
+});

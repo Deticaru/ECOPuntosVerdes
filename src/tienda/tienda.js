@@ -257,3 +257,8 @@ function agregarCerrarModalFuera(modalId) {
 function irAtras() {
     history.back(); // Regresa a la página anterior en el historial
 }
+
+// Exponer funciones usadas por atributos onclick cuando se usa type="module"
+window.abrirCupones = abrirCupones;
+window.cerrarCupones = cerrarCupones;
+window.canjearCupon = canjearCupon;
