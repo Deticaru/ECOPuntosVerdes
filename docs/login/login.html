@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - ECO Puntos Verdes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="flex items-center justify-center min-h-screen bg-gray-100 font-sans">
+
+    <!-- Contenedor -->
+    <div class="bg-white shadow-xl rounded-xl p-8 w-11/12 max-w-md">
+      
+      <!-- Icono usuario -->
+      <div class="flex justify-center mb-6">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" 
+             alt="Usuario" class="h-20 w-20 rounded-full shadow-md">
+      </div>
+
+      <!-- Título -->
+      <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">
+        Iniciar Sesión
+      </h1>
+
+      <!-- Formulario -->
+      <form id="loginForm" class="flex flex-col gap-4">
+        <input type="email" id="emailInput" placeholder="Correo electrónico"
+               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+
+        <input type="password" id="passwordInput" placeholder="Contraseña"
+               class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+
+        <button type="submit" 
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition">
+          Iniciar Sesión
+        </button>
+      </form>
+
+      <!-- Links -->
+      <div class="flex flex-col items-center mt-6 text-sm text-blue-600 space-y-2">
+        <a href="../registro/registro.html">¿Aun no te registras?</a>
+        <a href="../home/home.html" class="text-gray-500 hover:text-gray-700">← Volver al Inicio</a>
+      </div>
+    </div>
+
+    <script>
+      // Lógica de login con detección de admin
+      document.getElementById("loginForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        
+        // Obtener el email del formulario
+        const emailInput = document.getElementById('emailInput');
+        const submitButton = document.querySelector('button[type="submit"]');
+        const email = emailInput.value.toLowerCase();
+        
+        // Cambiar texto del botón para feedback
+        const originalText = submitButton.textContent;
+        submitButton.textContent = 'Verificando...';
+        submitButton.disabled = true;
+        
+        // Simular un pequeño delay para mejor UX
+        setTimeout(() => {
+          // Verificar si el email contiene "@admin"
+          if (email.includes('@admin')) {
+            // Feedback visual para admin
+            submitButton.textContent = 'Accediendo como Admin...';
+            submitButton.className = 'w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition';
+            
+            setTimeout(() => {
+              console.log('Admin email detected:', email);
+              window.location.href = "../admin/admin.html";
+            }, 800);
+          } else {
+            // Feedback visual para usuario normal
+            submitButton.textContent = 'Accediendo...';
+            
+            setTimeout(() => {
+              console.log('Regular user email:', email);
+              window.location.href = "../menu/menu.html";
+            }, 800);
+          }
+        }, 500);
+      });
+      
+      // Detectar cambios en el email para mostrar indicador visual
+      document.getElementById('emailInput').addEventListener('input', function(e) {
+        const email = e.target.value.toLowerCase();
+        const submitButton = document.querySelector('button[type="submit"]');
+        
+        if (email.includes('@admin')) {
+          // Indicar que es admin
+          submitButton.textContent = '🔐 Iniciar Sesión (Admin)';
+          submitButton.className = 'w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold py-3 rounded-lg transition';
+        } else {
+          // Botón normal
+          submitButton.textContent = 'Iniciar Sesión';
+          submitButton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition';
+        }
+      });
+    </script>
+  </body>
+</html>

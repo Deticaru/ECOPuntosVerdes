@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO Puntos Verdes - Mi Cuenta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" crossorigin href="/ECOPuntosVerdes/assets/app-styles-DxmZkBXs.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header VISIBLE y CLICKEABLE -->
+        <div class="app-header gradient-bg text-white px-4 py-6 rounded-b-3xl">
+            <div class="flex flex-col items-center justify-center mb-6">
+                <h2 class="text-lg font-semibold text-center">Asignación de Puntos Verdes</h2>
+                <div class="flex space-x-1">
+                    <!-- Aquí puedes agregar íconos u otros elementos si quieres -->
+                </div>
+            </div>
+        </div>
+        <!-- Contenedor principal centrado -->
+        <div class="flex justify-center items-start min-h-screen bg-gray-100 px-4 py-8">
+            <!-- Ventana modal de puntos por huella de carbono -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 max-w-md w-full text-center max-h-[90vh] overflow-auto">
+
+                <!-- Icono de escaneo / producto -->
+                <div class="bg-blue-100 rounded-full p-6 mb-4 inline-block">
+                <i class="fas fa-leaf text-green-600 text-4xl"></i>
+                </div>
+                <!-- Título -->
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2">¡Producto Eco-Friendly!</h2>
+                <!-- Mensaje de huella de carbono -->
+                <p class="text-gray-600 mb-4">
+                Huella de carbono estimada: <span class="font-semibold text-green-700">Baja</span>
+                </p>
+                <!-- Puntos asignados según huella de carbono -->
+                <div class="bg-green-100 text-green-700 font-bold text-3xl rounded-full py-4 mb-6 w-32 mx-auto">
+                +20
+                </div>
+                <!-- Detalle explicativo -->
+                <p class="text-gray-500 mb-6 text-sm">
+                Comprando productos con baja huella de carbono, ganas más puntos en el programa ecológico.
+                </p>
+
+                <!-- Botón cerrar / aceptar -->
+                <button onclick="window.history.back()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition transform hover:scale-105">
+                Aceptar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+</body>
+</html>

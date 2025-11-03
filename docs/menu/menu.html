@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO Puntos Verdes - Plataforma Ecológica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script type="module" crossorigin src="/ECOPuntosVerdes/assets/menu-DCtVJWpw.js"></script>
+  <link rel="modulepreload" crossorigin href="/ECOPuntosVerdes/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="/ECOPuntosVerdes/assets/app-styles-DxmZkBXs.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header Responsivo -->
+        <div class="app-header gradient-bg text-white">
+            <!-- Desktop Header Layout -->
+            <div class="flex desktop-header-layout">
+                <!-- Navegación izquierda -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="text-3xl">🌱</div>
+                        <h1 class="text-2xl font-bold hide-mobile">ECO Puntos Verdes</h1>
+                        <h1 class="text-lg font-semibold hide-desktop">Inicio</h1>
+                    </div>
+                </div>
+
+                <!-- Navegación desktop (oculta en móvil) -->
+                <nav class="hide-mobile">
+                    <div class="flex space-x-6">
+                        <a href="../home/home.html"
+                            class="px-4 py-2 bg-white bg-opacity-20 rounded-lg font-semibold">Inicio</a>
+                        <a href="../tienda/tienda.html"
+                            class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Tienda</a>
+                        <a href="../dashboard/dashboard.html"
+                            class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Mi
+                            Cuenta</a>
+                        <a href="#"
+                            class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Ayuda</a>
+                    </div>
+                </nav>
+
+                <!-- Botones derecha -->
+                <div class="flex items-center space-x-3">
+                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
+                        <i class="fas fa-sync-alt text-xl"></i>
+                    </button>
+                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
+                        <i class="fas fa-map-marker-alt text-xl"></i>
+                    </button>
+                    <div class="relative">
+                        <button onclick="toggleUserMenu()"
+                            class="hide-mobile p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
+                            <i class="fas fa-user-circle text-xl"></i>
+                        </button>
+
+                        <!-- Menú desplegable -->
+                        <div id="userMenu"
+                            class="hidden absolute right-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-lg z-50">
+                            <a href="../dashboard/dashboard.html" class="block px-4 py-2 hover:bg-gray-100">Mi
+                                Cuenta</a>
+                            <a href="#" onclick="abrirNotificaciones()" class="block px-4 py-2 hover:bg-gray-100">⚙️
+                                Configuración de Notificaciones</a>
+                            <a href="../login/login.html" class="block px-4 py-2 hover:bg-gray-100">Cerrar Sesión</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Contenido del header responsivo -->
+            <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols:1 xs:grid-cols-1 gap-4 p-4">
+                <!-- Stats adicionales (solo desktop) -->
+                <div class="card bg-blue-500 text-white animate-fade-in col-span-1">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold" id="carbonoEvitado">5.8</div>
+                        <div class="text-sm opacity-90">kg CO₂ Evitados</div>
+                        <div class="mt-2">
+                            <i class="fas fa-leaf text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta de puntos -->
+                <div class="card bg-white text-gray-800 animate-fade-in col-span-1">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-3xl lg:text-4xl font-bold text-blue-600" id="puntosDisplay">123</span>
+                            <span class="text-gray-600 ml-2 font-medium text-lg">Puntos Verdes</span>
+                        </div>
+                        <button
+                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full font-semibold transition-colors shadow-md clickeable">
+                            Canjear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Elecciones sostenibles -->
+                <div class="hide-mobile card bg-green-500 text-white animate-fade-in col-span-1">
+                    <div class="flex items-center">
+                        <div class="bg-white bg-opacity-20 rounded-full p-3 mr-4">
+                            <i class="fas fa-check text-2xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-xl">Elecciones sostenibles</div>
+                            <div class="text-sm opacity-90 mt-1">Conoce nuestras iniciativas de sostenibilidad</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Contenido principal responsivo -->
+        <div class="app-content">
+            <!-- Grid responsivo de funcionalidades -->
+            <!-- Grid responsivo de funcionalidades -->
+            <div class="responsive-grid mb-8">
+                <!-- Escanear producto -->
+                <div class="card hover:shadow-lg transition-all clickeable animate-fade-in cursor-pointer"
+                    onclick="window.location.href='../escaneo/escaneo.html'">
+                    <div class="flex items-center lg:flex-col lg:text-center">
+                        <div class="bg-blue-100 rounded-2xl p-4 mr-4 lg:mr-0 lg:mb-4">
+                            <i class="fas fa-qrcode text-blue-600 text-2xl lg:text-3xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800 text-lg lg:text-xl">Escanear</div>
+                            <div class="text-sm text-gray-600 mt-1">Escanea códigos de barras para obtener más detalles
+                            </div>
+                            <a href="../escaneo/escaneo.html"
+                                class="hide-mobile mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                Escanear
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Historial reciente -->
+                <div class="card hover:shadow-lg transition-all clickeable animate-fade-in">
+                    <div class="flex items-center lg:flex-col lg:text-center">
+                        <div class="bg-green-100 rounded-2xl p-4 mr-4 lg:mr-0 lg:mb-4">
+                            <i class="fas fa-shopping-cart text-green-600 text-2xl lg:text-3xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800 text-lg lg:text-xl">Pedido de supermercado</div>
+                            <div class="text-sm text-gray-600 mt-1">8 de abril - Productos ecológicos</div>
+                            <button
+                                class="hide-mobile mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                Ver detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Impacto ambiental (desktop) -->
+                <div class="hide-mobile card hover:shadow-lg transition-all animate-fade-in">
+                    <div class="text-center">
+                        <div class="bg-yellow-100 rounded-2xl p-4 mb-4 inline-block">
+                            <i class="fas fa-tree text-yellow-600 text-3xl"></i>
+                        </div>
+                        <div class="font-semibold text-gray-800 text-xl">Tu Impacto</div>
+                        <div class="text-2xl font-bold text-green-600 mt-2" id="arbolesEquiv">0.3</div>
+                        <div class="text-sm text-gray-600 mb-4">Árboles equivalentes plantados</div>
+
+                        <!-- Botones de acción -->
+                        <div class="flex justify-center gap-3">
+                            <button
+                                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm"
+                                onclick="exportarReporte()">
+                                <i class="fas fa-file-export mr-2"></i> Exportar Reporte
+                            </button>
+                            <button
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                                onclick="compartirReporte()">
+                                <i class="fas fa-share-alt mr-2"></i> Compartir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acciones rápidas (desktop) -->
+                <div class="hide-mobile card hover:shadow-lg transition-all animate-fade-in">
+                    <div class="text-center">
+                        <div class="bg-purple-100 rounded-2xl p-4 mb-4 inline-block">
+                            <i class="fas fa-bolt text-purple-600 text-3xl"></i>
+                        </div>
+                        <div class="font-semibold text-gray-800 text-xl">Acciones Rápidas</div>
+                        <div class="mt-4 space-y-2">
+                            <button
+                                class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm">
+                                Calcular Huella
+                            </button>
+                            <button
+                                class="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm">
+                                Ver Estadísticas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de llamada a la acción -->
+            <div class="card bg-gradient-to-r from-green-500 to-blue-500 text-white text-center animate-fade-in">
+                <h2 class="text-2xl lg:text-3xl font-bold mb-4">🌍 ¡Únete al Cambio!</h2>
+                <p class="text-lg mb-6 opacity-90">
+                    Cada compra ecológica cuenta. Contribuye a un futuro más sostenible.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="../tienda/tienda.html"
+                        class="bg-white text-green-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors clickeable">
+                        🛍️ Explorar Tienda
+                    </a>
+                    <a href="../dashboard/dashboard.html"
+                        class="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white hover:text-blue-600 transition-colors clickeable">
+                        📊 Ver Mi Progreso
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación inferior (móvil) / Footer (desktop) -->
+        <div class="bottom-nav hide-desktop">
+            <div class="flex justify-around lg:justify-center items-center">
+                <a href="#" id="btnCupones"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+                    <i class="fas fa-gift text-yellow-500 text-lg mb-1 lg:mb-0"></i>
+                    <span class="text-xs lg:text-sm text-gray-600">Cupones</span>
+                </a>
+
+                <a href="../tienda/tienda.html"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+                    <i class="fas fa-tag text-red-500 text-lg mb-1 lg:mb-0"></i>
+                    <span class="text-xs lg:text-sm text-gray-600">Tienda</span>
+                </a>
+                <a href="../menu/menu.html"
+                    class="flex flex-col items-center p-2 bg-blue-50 rounded-xl clickeable lg:flex-row lg:space-x-2">
+                    <i class="fas fa-home text-blue-500 text-lg mb-1 lg:mb-0"></i>
+                    <span class="text-xs lg:text-sm text-blue-500 font-semibold">Inicio</span>
+                </a>
+                <a href="#"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+                    <i class="fas fa-heart text-gray-400 text-lg mb-1 lg:mb-0"></i>
+                    <span class="text-xs lg:text-sm text-gray-600">Favoritos</span>
+                </a>
+                <a href="../dashboard/dashboard.html"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+                    <i class="fas fa-user text-gray-400 text-lg mb-1 lg:mb-0"></i>
+                    <span class="text-xs lg:text-sm text-gray-600">Cuenta</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Configuración Notificaciones -->
+    <div id="modalNotificaciones"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 class="text-xl font-bold mb-4">Configuración de Notificaciones</h2>
+
+            <form id="formNotificaciones" class="space-y-3">
+                <label class="flex items-center">
+                    <input type="checkbox" name="puntos" class="mr-2">
+                    Alertas de puntos obtenidos
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="promociones" class="mr-2">
+                    Promociones y descuentos
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="productos" class="mr-2">
+                    Productos sostenibles recomendados
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="habitos" class="mr-2">
+                    Consejos de consumo responsable
+                </label>
+
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="cerrarNotificaciones()"
+                        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancelar</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Cupones -->
+    <div id="modalCupones" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <h2 class="text-xl font-bold mb-4">Promociones y Cupones</h2>
+
+            <div id="listaCupones" class="space-y-3 max-h-64 overflow-y-auto">
+                <!-- Se llenará dinámicamente desde JS -->
+            </div>
+
+            <div class="flex justify-end space-x-3 mt-4">
+                <button type="button" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+                    onclick="cerrarCupones()">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

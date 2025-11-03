@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO Puntos Verdes - Administración</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Colores de Walmart */
+        .bg-walmart-blue {
+            background-color: #004c91;
+        }
+        .bg-walmart-yellow {
+            background-color: #ffc220;
+        }
+        .text-walmart-blue {
+            color: #004c91;
+        }
+        .text-walmart-yellow {
+            color: #ffc220;
+        }
+        
+        /* Gradientes personalizados */
+        .bg-gradient-to-br {
+            background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+        }
+        
+        /* Sombras personalizadas */
+        .drop-shadow {
+            filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+        }
+        .drop-shadow-lg {
+            filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+        }
+        
+        /* Efectos de brillo y resplandor */
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(255, 194, 32, 0.3);
+        }
+        
+        /* Animación de entrada suave */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Animación de pulso para sincronización */
+        @keyframes pulse-success {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-pulse-success {
+            animation: pulse-success 0.6s ease-in-out;
+        }
+        
+        /* Animación de spinner */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Estilos del sidebar con opacidades diferenciadas */
+        .sidebar-hover {
+            transition: all 0.3s ease;
+        }
+        .sidebar-hover:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    
+        /* Mantener íconos siempre azul oscuro y texto blanco */
+        .nav-btn svg {
+            color: #1e40af !important;
+        }
+        .nav-btn span {
+            color: #ffffff !important;
+        }
+        
+        /* Efectos de glassmorphism */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Botón seleccionado con opacidad alta para diferenciarlo */
+        .nav-btn.bg-white.bg-opacity-20 {
+            background-color: rgba(255, 255, 255, 0.4) !important;
+        }
+        
+        /* Sidebar con gradiente igual que menu.html */
+        .sidebar-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            position: relative;
+        }
+        
+        .sidebar-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 194, 32, 0.05) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 260px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 1000;
+                box-shadow: 2px 0 15px rgba(0,0,0,0.2);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                display: none;
+            }
+            
+            .sidebar-overlay.show {
+                display: block;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding-top: 0; /* Removemos el padding top ya que no hay header */
+            }
+            
+            .mobile-header {
+                display: none; /* Ocultamos el header móvil */
+            }
+            
+            .hamburger {
+                display: none;
+            }
+            
+            /* Botón flotante para abrir menú */
+            .floating-menu-btn {
+                position: fixed;
+                top: 60px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+                background: rgba(30, 64, 175, 0.12);
+                border: none;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: rgba(30, 64, 175, 0.7);
+                font-size: 18px;
+                cursor: pointer;
+                z-index: 1001;
+                box-shadow: 0 2px 6px rgba(30, 64, 175, 0.08);
+                transition: all 0.3s ease;
+            }
+            
+            .floating-menu-btn:hover {
+                transform: scale(1.05);
+                background: rgba(30, 64, 175, 0.2);
+                color: rgba(30, 64, 175, 0.9);
+                box-shadow: 0 4px 10px rgba(30, 64, 175, 0.15);
+            }
+            
+            .floating-menu-btn.hidden {
+                opacity: 0;
+                visibility: hidden;
+                transform: scale(0.8);
+            }
+            
+            /* Botón para cerrar sidebar (flecha izquierda) */
+            .close-sidebar-btn {
+                position: fixed;
+                top: 60px;
+                left: 280px; /* A la derecha del sidebar de 260px + 20px de margen */
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+                border: 2px solid rgba(255, 255, 255, 0.8);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+                z-index: 1001;
+                box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+                transition: all 0.3s ease;
+                opacity: 0;
+                visibility: hidden;
+                transform: scale(0.8);
+                animation: pulse-hint 2s infinite;
+            }
+            
+            .close-sidebar-btn.show {
+                opacity: 1;
+                visibility: visible;
+                transform: scale(1);
+            }
+            
+            .close-sidebar-btn:hover {
+                transform: scale(1.1);
+                box-shadow: 0 6px 20px rgba(30, 64, 175, 0.6);
+                border-color: rgba(255, 255, 255, 1);
+            }
+            
+            .close-sidebar-btn.show {
+                animation: none; /* Detener la animación de pulso al mostrar */
+            }
+            
+            @keyframes pulse-hint {
+                0%, 100% {
+                    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+                    transform: scale(1);
+                }
+                50% {
+                    box-shadow: 0 6px 25px rgba(30, 64, 175, 0.6);
+                    transform: scale(1.05);
+                }
+            }
+            
+            /* Admin dropdown menu styles */
+            #adminDropdown {
+                transition: all 0.2s ease;
+            }
+            
+            #adminSettingsBtn {
+                position: relative;
+                z-index: 99998;
+            }
+            
+            #adminSettingsBtn:hover svg {
+                transform: rotate(90deg);
+            }
+            
+            .grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Mobile sidebar optimizations */
+            .sidebar .p-6 {
+                padding: 1rem !important;
+            }
+            
+            .sidebar .space-y-2 > * {
+                margin-bottom: 0.25rem;
+            }
+            
+            .sidebar .nav-item {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .sidebar .nav-item i {
+                width: 1.2rem;
+                font-size: 1rem;
+                margin-right: 0.75rem;
+            }
+            
+            .sidebar h2 {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .sidebar .flex.items-center {
+                gap: 0.75rem;
+            }
+            
+            .overflow-x-auto table {
+                min-width: 600px;
+            }
+            
+            .responsive-table th,
+            .responsive-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.875rem;
+            }
+            
+            .modal-content {
+                margin: 1rem;
+                max-width: calc(100vw - 2rem);
+            }
+        }
+        
+        /* Para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .sidebar .nav-item {
+                padding: 0.65rem 0.85rem;
+                font-size: 0.85rem;
+            }
+            
+            .sidebar .p-6 {
+                padding: 0.75rem !important;
+            }
+            
+            .sidebar h2 {
+                font-size: 1rem;
+                padding: 0 0.85rem;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .floating-menu-btn {
+                display: none;
+            }
+        }
+    </style>
+  <script type="module" crossorigin src="/ECOPuntosVerdes/assets/admin-DaSHykhz.js"></script>
+  <link rel="modulepreload" crossorigin href="/ECOPuntosVerdes/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="/ECOPuntosVerdes/assets/admin-4QYrGYGn.css">
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Botón flotante para móviles -->
+        <button class="floating-menu-btn md:hidden" onclick="toggleSidebar()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+
+        <!-- Botón para cerrar sidebar (flecha izquierda) -->
+        <button class="close-sidebar-btn md:hidden" onclick="closeSidebar()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="closeSidebar()"></div>
+        
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 sidebar-gradient text-white flex flex-col shadow-2xl animate-fadeInUp">
+            <!-- Logo/Header -->
+            <div class="p-6 relative overflow-hidden" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);">
+                <!-- Decorative elements -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-5 rounded-full translate-y-12 -translate-x-12"></div>
+                
+                <div class="relative z-10">
+                    <!-- Logo and Title -->
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="bg-white bg-opacity-20 rounded-full p-3 shadow-lg transform hover:scale-105 transition-transform duration-200">
+                            <span class="text-white font-bold text-lg">🌱</span>
+                        </div>
+                        <div>
+                            <h1 class="font-bold text-xl text-white drop-shadow-lg">ECO</h1>
+                            <h2 class="font-semibold text-lg text-white drop-shadow">PuntosVerdes</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Admin Badge -->
+                    <div class="flex items-center relative">
+                        <div class="bg-green-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-md">
+                            👑 Administrador
+                        </div>
+                        
+                        <!-- Settings Gear -->
+                        <button onclick="toggleAdminMenu()" class="ml-2 p-2 rounded-full hover:bg-blue-800 hover:bg-opacity-50 transition-all duration-200" id="adminSettingsBtn">
+                            <svg class="w-5 h-5 text-white drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Admin Dropdown Menu -->
+                        <div id="adminDropdown" style="display: none; position: fixed; z-index: 99999; top: 120px; right: 20px; width: 12rem; background: white; border: 1px solid #e5e7eb; border-radius: 0.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: all 0.2s ease;">
+                            <div class="py-2">
+                                <button onclick="logout()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 flex items-center space-x-2 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                    </svg>
+                                    <span>Cerrar Sesión</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 px-4 py-6">
+                <ul class="space-y-3">
+                    <li>
+                        <button onclick="showSection('productos')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="productos">
+                            <div class="p-2 transition-all">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M3 4a1 1 0 000 2v9a2 2 0 002 2h6a2 2 0 002-2V6a1 1 0 100-2H3zM8 8a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1zm0 4a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium text-white">Productos</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('usuarios')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="usuarios">
+                            <div class="p-2 transition-all">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium text-white">Usuarios</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('ventas')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="ventas">
+                            <div class="p-2 transition-all">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium text-white">Dashboard</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="showSection('reportes')" class="nav-btn sidebar-hover flex items-center space-x-3 p-4 rounded-xl glass-effect w-full text-left group" data-section="reportes">
+                            <div class="p-2 transition-all">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 2a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="font-medium text-white">Reportes</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content flex-1 overflow-y-auto">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b">
+                <div class="px-4 md:px-6 py-4">
+                    <h1 class="text-xl md:text-2xl font-semibold text-gray-800">Panel de Administración ECO</h1>
+                    <p class="text-gray-600 text-xs md:text-sm mt-1">Gestión de puntos verdes y seguimiento de huella de carbono</p>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="p-4 md:p-6">
+                <!-- Productos Section -->
+                <div id="productos-section" class="section-content hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Productos ECO Disponibles</p>
+                                    <p class="text-3xl font-bold text-green-600">248</p>
+                                </div>
+                                <div class="bg-green-100 p-3 rounded-full">
+                                    <span class="text-xl">🌱</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Sincronizado con Walmart</p>
+                                    <p class="text-3xl font-bold text-blue-600">425</p>
+                                </div>
+                                <div class="bg-blue-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Sin Puntos Asignados</p>
+                                    <p class="text-3xl font-bold text-orange-600">32</p>
+                                </div>
+                                <div class="bg-orange-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Última Sync API</p>
+                                    <p class="text-xl font-bold text-gray-900">Hace 15min</p>
+                                </div>
+                                <div class="bg-gray-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="px-4 md:px-6 py-4 border-b border-gray-200 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+                            <h2 class="text-base md:text-lg font-semibold text-gray-800">Productos Ecológicos - Configuración de Puntos</h2>
+                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                                <button onclick="openAddProductModal()" class="bg-green-600 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 text-sm md:text-base">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="hidden sm:inline">Agregar Producto</span>
+                                    <span class="sm:hidden">Agregar</span>
+                                </button>
+                                <button id="syncButton" onclick="syncWithWalmart()" class="bg-walmart-blue text-walmart-yellow px-3 md:px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors relative overflow-hidden text-sm md:text-base">
+                                <span id="syncText">
+                                    <span class="hidden sm:inline">🔄 Sincronizar con Walmart API</span>
+                                    <span class="sm:hidden">🔄 Sync</span>
+                                </span>
+                                <span id="syncLoader" class="hidden">
+                                    <svg class="animate-spin h-4 w-4 inline-block mr-2" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Sincronizando...
+                                </span>
+                                <span id="syncSuccess" class="hidden">✅ Sincronizado correctamente</span>
+                            </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría ECO</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock Walmart</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ahorro CO₂</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Puntos ECO</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Botella de Agua Reutilizable</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Cero Residuos</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">✓ 145 disponibles</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2.3 kg CO₂</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <input type="number" value="150" class="w-16 px-2 py-1 text-sm border rounded text-center">
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Activo</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Bombillas LED</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Eficiencia Energética</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">✓ 89 disponibles</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">8.5 kg CO₂</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <input type="number" value="320" class="w-16 px-2 py-1 text-sm border rounded text-center">
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Activo</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Bolsas de Tela Orgánica</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Cero Residuos</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">⚠ Solo 3 disponibles</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1.2 kg CO₂</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <input type="number" value="80" class="w-16 px-2 py-1 text-sm border rounded text-center">
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Activo</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Productos de Limpieza Biodegradables</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Químicos Verdes</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">✓ 67 disponibles</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1.8 kg CO₂</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <input type="number" placeholder="0" class="w-16 px-2 py-1 text-sm border rounded text-center bg-yellow-50">
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Pendiente</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuarios Section -->
+                <div id="usuarios-section" class="section-content hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Total Usuarios</p>
+                                    <p class="text-3xl font-bold text-gray-900">3,200</p>
+                                </div>
+                                <div class="bg-blue-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Usuarios Activos</p>
+                                    <p class="text-3xl font-bold text-green-600">2,850</p>
+                                </div>
+                                <div class="bg-green-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Nuevos Este Mes</p>
+                                    <p class="text-3xl font-bold text-purple-600">145</p>
+                                </div>
+                                <div class="bg-purple-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Puntos Totales</p>
+                                    <p class="text-3xl font-bold text-yellow-600">45,230</p>
+                                </div>
+                                <div class="bg-yellow-100 p-3 rounded-full">
+                                    <span class="text-xl">🏆</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h2 class="text-lg font-semibold text-gray-800">Usuarios Registrados</h2>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Puntos</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Registro</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">María García</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">maria.garcia@email.com</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1,250</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-15</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Activo</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Carlos López</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">carlos.lopez@email.com</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">890</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-04-02</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Activo</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ventas Section (Dashboard Principal) -->
+                <div id="ventas-section" class="section-content">
+                    <!-- KPI Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <!-- CO2 Ahorrado Card -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">CO₂ Ahorrado Total</p>
+                                    <p class="text-3xl font-bold text-green-600">1,247 kg</p>
+                                </div>
+                                <div class="bg-green-100 p-3 rounded-full">
+                                    <span class="text-xl">🌍</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Puntos Otorgados Card -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Puntos ECO Otorgados</p>
+                                    <div class="flex items-center">
+                                        <span class="text-2xl font-bold text-yellow-500 mr-1">🏆</span>
+                                        <span class="text-3xl font-bold text-gray-900">45,230</span>
+                                    </div>
+                                </div>
+                                <div class="bg-yellow-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compras ECO Rastreadas Card -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Compras ECO Rastreadas</p>
+                                    <div class="flex items-center">
+                                        <span class="text-2xl font-bold text-blue-500 mr-2">�</span>
+                                        <span class="text-3xl font-bold text-gray-900">3,158</span>
+                                    </div>
+                                </div>
+                                <div class="bg-blue-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Usuarios Activos Card -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Usuarios ECO Activos</p>
+                                    <div class="flex items-center">
+                                        <span class="text-2xl font-bold text-purple-500 mr-2">�</span>
+                                        <span class="text-3xl font-bold text-gray-900">2,847</span>
+                                    </div>
+                                </div>
+                                <div class="bg-purple-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent ECO Activities Section -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h2 class="text-lg font-semibold text-gray-800">Actividades ECO Recientes</h2>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto ECO</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CO₂ Ahorrado</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Puntos</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-09-27</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">María García</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Botella Reutilizable</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">+2.3 kg</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 font-medium">+150 pts</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                                    ✓ Procesado
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-09-27</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Carlos López</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Bombillas LED (x4)</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">+8.5 kg</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 font-medium">+320 pts</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                    ⏳ Pendiente
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-09-26</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Ana Rodríguez</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Bolsa de Tela</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">+1.2 kg</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 font-medium">+80 pts</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                                    ✓ Procesado
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-09-26</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Luis Martínez</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Productos Biodegradables</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">+1.8 kg</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sin asignar</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                                    ❌ Error Config
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+                        <!-- CO2 Savings Chart -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Ahorro de CO₂ por Mes (kg)</h3>
+                            <div class="h-64 w-full">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- ECO Points Distribution Chart -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Distribución de Puntos ECO</h3>
+                            <div class="h-64 w-full">
+                                <canvas id="inventoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reportes Section -->
+                <div id="reportes-section" class="section-content hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Reportes Generados</p>
+                                    <p class="text-3xl font-bold text-gray-900">48</p>
+                                </div>
+                                <div class="bg-indigo-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Descargas</p>
+                                    <p class="text-3xl font-bold text-gray-900">1,234</p>
+                                </div>
+                                <div class="bg-green-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm font-medium">Reportes Programados</p>
+                                    <p class="text-3xl font-bold text-gray-900">12</p>
+                                </div>
+                                <div class="bg-purple-100 p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                            <h2 class="text-lg font-semibold text-gray-800">Reportes Disponibles</h2>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                + Generar Reporte
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div class="border rounded-lg p-4 hover:border-blue-300 cursor-pointer transition-colors">
+                                    <h3 class="font-medium text-gray-900 mb-2">Reporte de Ventas</h3>
+                                    <p class="text-gray-600 text-sm mb-3">Análisis detallado de las ventas mensuales</p>
+                                    <button onclick="generateReport('ventas')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Generar</button>
+                                </div>
+                                <div class="border rounded-lg p-4 hover:border-blue-300 cursor-pointer transition-colors">
+                                    <h3 class="font-medium text-gray-900 mb-2">Reporte de Usuarios</h3>
+                                    <p class="text-gray-600 text-sm mb-3">Estadísticas de registro y actividad</p>
+                                    <button onclick="generateReport('usuarios')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Generar</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para agregar producto -->
+    <div id="addProductModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 hidden">
+        <div class="modal-content bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-800">Agregar Nuevo Producto ECO</h3>
+                    <button onclick="closeAddProductModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <form id="addProductForm" onsubmit="addProduct(event)" class="p-4 md:p-6">
+                <div class="space-y-4">
+                    <div>
+                        <label for="productCode" class="block text-sm font-medium text-gray-700 mb-1">Código del Producto</label>
+                        <input type="text" id="productCode" name="productCode" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               placeholder="Ej: ECO001">
+                        <p class="text-xs text-gray-500 mt-1">El nombre se obtendrá automáticamente desde la API de Walmart</p>
+                    </div>
+                    
+                    <div>
+                        <label for="co2Saving" class="block text-sm font-medium text-gray-700 mb-1">Ahorro CO₂ (kg)</label>
+                        <input type="number" id="co2Saving" name="co2Saving" step="0.1" min="0" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               placeholder="Ej: 2.3">
+                    </div>
+                    
+                    <div>
+                        <label for="ecoPoints" class="block text-sm font-medium text-gray-700 mb-1">Puntos ECO</label>
+                        <input type="number" id="ecoPoints" name="ecoPoints" min="0" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               placeholder="Ej: 150">
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="closeAddProductModal()" 
+                            class="px-4 py-2 text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors flex items-center space-x-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>Agregar Producto</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+</body>
+</html>

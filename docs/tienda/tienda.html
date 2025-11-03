@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO Puntos Verdes - Tienda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script type="module" crossorigin src="/ECOPuntosVerdes/assets/tienda-B0iIhKSv.js"></script>
+  <link rel="modulepreload" crossorigin href="/ECOPuntosVerdes/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="/ECOPuntosVerdes/assets/app-styles-DxmZkBXs.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header con fondo blanco limpio -->
+        <div class="bg-white px-4 py-6 rounded-b-3xl shadow-sm">
+            
+            <!-- Tarjeta de puntos -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-4 mb-4 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-leaf text-green-500 mr-3 text-xl"></i>
+                        <span class="font-semibold text-gray-800 text-lg" id="puntosUsuario">180 Puntos Verdes</span>
+                    </div>
+                    <button id="btnCanjearPuntos" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition-colors">
+                        Canjear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Banner productos ecológicos -->
+            <div class="bg-green-500 text-white rounded-2xl p-4">
+                <div class="flex items-center">
+                    <div class="bg-white bg-opacity-20 rounded-full p-2 mr-3">
+                        <i class="fas fa-leaf text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-lg">Productos Ecológicos</div>
+                        <div class="text-sm opacity-90">Compra y ayuda al planeta 🌍</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Productos -->
+        <div class="app-content px-4 py-4">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-shopping-cart text-gray-600 mr-2"></i>
+                <h3 class="font-semibold text-gray-800 text-lg">Productos Disponibles</h3>
+            </div>
+            <div id="productosGrid" class="space-y-4">
+                <!-- Los productos se cargarán aquí -->
+            </div>
+        </div>
+
+        <!-- Modal de Pago -->
+        <div id="modalPago" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="bg-white rounded-3xl shadow-xl max-w-sm w-full mx-4">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">💳 Finalizar Compra</h3>
+                            <button onclick="cerrarModal()" class="text-gray-500 hover:text-gray-700 text-xl">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div id="detalleProducto" class="mb-6"></div>
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-3">💳 Método de pago:</h4>
+                            <div id="tarjetasDisponibles"></div>
+                        </div>
+                        <button id="btnPagar" onclick="procesarPago()"
+                            class="w-full bg-blue-600 text-white py-3 rounded-2xl font-semibold hover:bg-blue-700 disabled:bg-gray-400"
+                            disabled>Pagar Ahora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Confirmación -->
+        <div id="modalConfirmacion" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="bg-white rounded-3xl shadow-xl max-w-sm w-full mx-4">
+                    <div class="p-6 text-center">
+                        <div class="text-green-500 text-5xl mb-4">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-green-800">¡Compra Exitosa! 🎉</h3>
+                        <div id="resumenCompra" class="bg-green-50 p-4 rounded-2xl mb-4"></div>
+                        <div id="impactoAmbiental" class="bg-blue-50 p-4 rounded-2xl mb-6"></div>
+                        <button onclick="cerrarConfirmacion()"
+                            class="bg-green-600 text-white px-6 py-3 rounded-2xl font-semibold">Continuar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Cupones -->
+        <div id="modalCupones" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="bg-white rounded-3xl shadow-xl max-w-md w-full mx-4">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">🎁 Canjear Cupones</h3>
+                            <button onclick="cerrarCupones()" class="text-gray-500 hover:text-gray-700 text-xl">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div id="listaCupones" class="space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <div class="bottom-nav px-4 py-3">
+            <div class="flex justify-around items-center">
+                <a href="#" id="linkCupones" class="flex flex-col items-center p-2">
+                    <i class="fas fa-gift text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Cupones</span>
+                </a>
+                <a href="../tienda/tienda.html" class="flex flex-col items-center p-2">
+                    <i class="fas fa-tag text-red-500 text-lg mb-1"></i>
+                    <span class="text-xs text-red-500 font-semibold">Tienda</span>
+                </a>
+                <a href="../menu/menu.html" class="flex flex-col items-center p-2">
+                    <i class="fas fa-home text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Inicio</span>
+                </a>
+                <a href="#" class="flex flex-col items-center p-2">
+                    <i class="fas fa-heart text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Favoritos</span>
+                </a>
+                <a href="../dashboard/dashboard.html" class="flex flex-col items-center p-2">
+                    <i class="fas fa-user text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Cuenta</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

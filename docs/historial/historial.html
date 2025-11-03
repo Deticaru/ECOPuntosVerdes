@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO Puntos Verdes - Historial de Consumo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Estilos para el modal de detalles */
+        #modalDetalles.show {
+            display: flex !important;
+        }
+    </style>
+  <script type="module" crossorigin src="/ECOPuntosVerdes/assets/historial-BNbw5BlQ.js"></script>
+  <link rel="modulepreload" crossorigin href="/ECOPuntosVerdes/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="/ECOPuntosVerdes/assets/app-styles-DxmZkBXs.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header VISIBLE y CLICKEABLE -->
+        <div class="app-header gradient-bg text-white px-4 py-6 rounded-b-3xl">
+            <div class="flex items-center justify-between mb-6">
+                <button onclick="window.history.back()"
+                    class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-lg font-semibold">Historial de Consumo</h1>
+                <div class="flex space-x-3">
+                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
+                        <i class="fas fa-download text-xl"></i>
+                    </button>
+                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable">
+                        <i class="fas fa-filter text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats de CO2 -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="bg-white bg-opacity-20 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold" id="co2MesActual">2.3</div>
+                    <div class="text-sm opacity-90">kg CO₂ este mes</div>
+                    <div class="text-xs opacity-75 mt-1">
+                        <i class="fas fa-calendar-alt mr-1"></i>
+                        Septiembre 2025
+                    </div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold" id="co2Total">18.1</div>
+                    <div class="text-sm opacity-90">kg CO₂ total</div>
+                    <div class="text-xs opacity-75 mt-1">
+                        <i class="fas fa-leaf mr-1"></i>
+                        Ahorro acumulado
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progreso mensual visual -->
+            <div class="bg-white text-gray-800 rounded-2xl p-4">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="font-semibold">Meta mensual de CO₂</div>
+                    <div class="text-sm text-gray-600"><span id="co2MesActual">2.3</span> / 5.0 kg</div>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-green-500 h-2 rounded-full transition-all duration-500" id="barraProgresoCO2" style="width: 0%"></div>
+                </div>
+                <div class="text-xs text-gray-600 mt-1" id="textoProgreso">0% completado - ¡Sigue así! 🌱</div>
+            </div>
+        </div>
+
+        <!-- Contenido -->
+        <div class="app-content p-4 mb-24 md:mb-0">
+            <!-- Gráfico de tendencia -->
+            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-chart-line text-green-500 mr-2"></i>
+                    Tendencia de Ahorro CO₂
+                </h3>
+                <div class="h-40">
+                    <canvas id="graficoTendenciaCO2"></canvas>
+                </div>
+            </div>
+
+            <!-- Lista de productos ECO -->
+            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-gray-800 flex items-center">
+                        <i class="fas fa-leaf text-green-500 mr-2"></i>
+                        Productos ECO Comprados
+                    </h3>
+                    <select id="filtroTiempo" class="text-sm border border-gray-300 rounded-lg px-3 py-1">
+                        <option value="mes">Este mes</option>
+                        <option value="trimestre">Último trimestre</option>
+                        <option value="año">Este año</option>
+                        <option value="todo">Todo el historial</option>
+                    </select>
+                </div>
+                
+                <div id="listaProductosEco" class="space-y-3">
+                    <!-- Se carga dinámicamente -->
+                </div>
+
+                <div id="sinProductos" class="text-center py-8 text-gray-500 hidden">
+                    <i class="fas fa-shopping-bag text-4xl mb-3"></i>
+                    <p class="text-lg font-medium">No hay productos ECO aún</p>
+                    <p class="text-sm mb-4">¡Empieza a comprar productos sostenibles y ahorra CO₂!</p>
+                    <a href="../tienda/tienda.html"
+                        class="inline-block bg-green-500 text-white px-6 py-2 rounded-lg text-sm clickeable hover:bg-green-600 transition-colors">
+                        <i class="fas fa-store mr-2"></i>
+                        Explorar Tienda ECO
+                    </a>
+                </div>
+            </div>
+
+            <!-- Resumen por categorías -->
+            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-chart-pie text-blue-500 mr-2"></i>
+                    Ahorro por Categorías
+                </h3>
+                <div id="categoriasCO2" class="space-y-3">
+                    <!-- Se carga dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Logros ambientales -->
+            <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-trophy text-yellow-500 mr-2"></i>
+                    Logros Ambientales
+                </h3>
+                <div class="grid grid-cols-2 gap-3" id="logrosAmbientales">
+                    <!-- Se carga dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de detalles del producto -->
+        <div id="modalDetalles" class="fixed inset-0 bg-black bg-opacity-40 items-center justify-center z-50" style="display: none;">
+            <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+                <button onclick="cerrarModalDetalles()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+                
+                <div id="detalleProducto" class="text-center">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación inferior FUNCIONAL -->
+        <div class="bottom-nav px-4 py-3">
+            <div class="flex justify-around items-center">
+                <a href="#" id="btnCupones"
+                    class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
+                    <i class="fas fa-gift text-yellow-500 text-lg mb-1 lg:mb-0"></i>
+                    <span class="text-xs lg:text-sm text-gray-600">Cupones</span>
+                </a>
+
+                <a href="../tienda/tienda.html" class="flex flex-col items-center p-2 clickeable">
+                    <i class="fas fa-tag text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Tienda</span>
+                </a>
+                <a href="../menu/menu.html" class="flex flex-col items-center p-2 clickeable">
+                    <i class="fas fa-home text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Inicio</span>
+                </a>
+                <a href="#" class="flex flex-col items-center p-2 clickeable">
+                    <i class="fas fa-heart text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Favoritos</span>
+                </a>
+                <a href="../dashboard/dashboard.html" class="flex flex-col items-center p-2 clickeable">
+                    <i class="fas fa-user text-gray-400 text-lg mb-1"></i>
+                    <span class="text-xs text-gray-600">Cuenta</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
