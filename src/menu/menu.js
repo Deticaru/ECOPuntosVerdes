@@ -9,7 +9,47 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarEstadisticasHome();
     animarElementos();
     configurarResponsive();
+    configurarEventListeners(); 
 });
+
+function configurarEventListeners() {
+    // Configurar todos los event listeners aquí para mejor organización
+    document.getElementById('formNotificaciones').addEventListener('submit', guardarPreferencias);
+    
+    // Buscar y configurar el botón de canjear por su texto (fallback)
+    const botonesCanjear = document.querySelectorAll('button');
+    botonesCanjear.forEach(boton => {
+        if (boton.textContent.includes('Canjear') && !boton.onclick) {
+            boton.addEventListener('click', abrirModalCanjear);
+        }
+    });
+    
+    // Cerrar modales al hacer clic fuera
+    document.addEventListener('click', (e) => {
+        if (e.target.id === 'modalNotificaciones') {
+            cerrarNotificaciones();
+        }
+        if (e.target.id === 'modalCupones') {
+            cerrarCupones();
+        }
+        if (e.target.id === 'modalCanjear') {
+            cerrarModalCanjear();
+        }
+    });
+}
+
+function guardarPreferencias(e) {
+    e.preventDefault();
+    const preferencias = {
+        puntos: this.puntos.checked,
+        promociones: this.promociones.checked,
+        productos: this.productos.checked,
+        habitos: this.habitos.checked
+    };
+    localStorage.setItem("notificaciones", JSON.stringify(preferencias));
+    generarNotificacion("✅ Preferencias guardadas");
+    cerrarNotificaciones();
+}
 
 function cargarDatosUsuario() {
     puntosUsuario = parseInt(localStorage.getItem('puntosUsuario')) || 123;
@@ -210,24 +250,6 @@ function cerrarNotificaciones() {
   document.getElementById("modalNotificaciones").classList.add("hidden");
 }
 
-// Guardar preferencias
-document.getElementById("formNotificaciones").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const preferencias = {
-    puntos: this.puntos.checked,
-    promociones: this.promociones.checked,
-    productos: this.productos.checked,
-    habitos: this.habitos.checked
-  };
-
-  // Guardar en localStorage (simulación de BD/Backend)
-  localStorage.setItem("notificaciones", JSON.stringify(preferencias));
-
-  alert("✅ Preferencias de notificaciones guardadas con éxito");
-  cerrarNotificaciones();
-});
-
 // Simulación de envío de notificaciones
 function generarNotificacion(mensaje) {
   const noti = document.createElement("div");
@@ -244,7 +266,6 @@ setTimeout(() => {
     generarNotificacion("🎉 Has sumado 50 Puntos Verdes en tu última compra");
   }
 }, 5000);
-
 
 // Funciones modal Cupones
 function abrirCupones() {
@@ -302,9 +323,111 @@ function canjearCupon(id) {
     localStorage.setItem('puntosUsuario', puntosUsuario);
     alert(`✅ Cupón canjeado: ${cupon.nombre} (${cupon.app})`);
     cargarCupones();
-    actualizarEstadisticas();
+    actualizarEstadisticasHome(); // CORREGIDO: era actualizarEstadisticas()
 }
-document.getElementById('btnCupones').addEventListener('click', abrirCupones);
+
+// Funciones para el modal de canje (VERSIÓN ÚNICA - sin duplicados)
+function abrirModalCanjear() {
+    const modal = document.getElementById('modalCanjear');
+    const puntosModal = document.getElementById('puntosModal');
+    
+    // Actualizar puntos en el modal
+    puntosModal.textContent = puntosUsuario;
+    
+    // Mostrar modal
+    modal.classList.remove('hidden');
+    
+    // Actualizar estado de botones
+    actualizarBotonesCanje();
+}
+
+function cerrarModalCanjear() {
+    document.getElementById('modalCanjear').classList.add('hidden');
+}
+
+function actualizarBotonesCanje() {
+    // Actualizar todos los botones de canje
+    const botones = document.querySelectorAll('#modalCanjear button[onclick*="canjearProducto"]');
+    
+    botones.forEach(boton => {
+        const match = boton.getAttribute('onclick').match(/canjearProducto\((\d+),/);
+        if (match) {
+            const costo = parseInt(match[1]);
+            
+            if (puntosUsuario < costo) {
+                boton.disabled = true;
+                boton.classList.remove('bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500', 'bg-purple-500');
+                boton.classList.add('bg-gray-300', 'cursor-not-allowed');
+                boton.innerHTML = `${costo} Puntos`;
+            } else {
+                boton.disabled = false;
+                boton.classList.remove('bg-gray-300', 'cursor-not-allowed');
+                // Restaurar color original basado en el costo
+                const colorClass = obtenerColorPorCosto(costo);
+                boton.classList.add(colorClass);
+                boton.innerHTML = `${costo} Puntos`;
+            }
+        }
+    });
+}
+
+function obtenerColorPorCosto(costo) {
+    const colores = {
+        5: 'bg-blue-500 hover:bg-blue-600',
+        10: 'bg-green-500 hover:bg-green-600',
+        20: 'bg-yellow-500 hover:bg-yellow-600', 
+        30: 'bg-red-500 hover:bg-red-600',
+        40: 'bg-purple-500 hover:bg-purple-600'
+    };
+    return colores[costo] || 'bg-gray-500 hover:bg-gray-600';
+}
+
+function canjearProducto(costo, producto) {
+    if (puntosUsuario < costo) {
+        generarNotificacion("❌ No tienes puntos suficientes para canjear este producto");
+        return;
+    }
+
+    // Confirmar canje
+    if (confirm(`¿Estás seguro de canjear ${costo} puntos por: ${producto}?`)) {
+        // Descontar puntos
+        puntosUsuario -= costo;
+        localStorage.setItem('puntosUsuario', puntosUsuario);
+        
+        // Actualizar display
+        actualizarEstadisticasHome();
+        
+        // Actualizar modal
+        document.getElementById('puntosModal').textContent = puntosUsuario;
+        actualizarBotonesCanje();
+        
+        // Mostrar confirmación
+        generarNotificacion(`✅ ¡Canje exitoso! Has canjeado ${costo} puntos por: ${producto}`);
+        
+        // Registrar en historial
+        registrarCanjeEnHistorial(producto, costo);
+        
+        // Cerrar modal después de 2 segundos
+        setTimeout(() => {
+            cerrarModalCanjear();
+        }, 2000);
+    }
+}
+
+function registrarCanjeEnHistorial(producto, costo) {
+    const historialCanjes = JSON.parse(localStorage.getItem('historialCanjes')) || [];
+    
+    const nuevoCanje = {
+        id: Date.now(),
+        fecha: new Date().toISOString(),
+        producto: producto,
+        puntos: -costo, // Puntos gastados (negativo)
+        tipo: 'canje'
+    };
+    
+    historialCanjes.unshift(nuevoCanje);
+    localStorage.setItem('historialCanjes', JSON.stringify(historialCanjes));
+}
 
 // Exponer funciones usadas por atributos onclick cuando se usa type="module"
 window.toggleUserMenu = toggleUserMenu;
@@ -315,3 +438,6 @@ window.compartirReporte = compartirReporte;
 window.abrirCupones = abrirCupones;
 window.cerrarCupones = cerrarCupones;
 window.canjearCupon = canjearCupon;
+window.abrirModalCanjear = abrirModalCanjear;
+window.cerrarModalCanjear = cerrarModalCanjear;
+window.canjearProducto = canjearProducto;
