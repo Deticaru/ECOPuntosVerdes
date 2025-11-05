@@ -3,11 +3,13 @@ import { productos, tarjetasFicticias } from '../data/productos.js';
 let productoSeleccionado = null;
 let tarjetaSeleccionada = null;
 let puntosUsuario = parseInt(localStorage.getItem('puntosUsuario')) || 180;
+let productosFavoritos = JSON.parse(localStorage.getItem('productosFavoritos')) || [];
 
-const cupones = [
-    { id: 1, nombre: "5% Descuento", puntos: 10, activo: true, app: "EcoPuntos Verdes" },
-    { id: 2, nombre: "10% Walmart", puntos: 25, activo: true, app: "Walmart" },
-    { id: 3, nombre: "Envío Gratis", puntos: 15, activo: false, app: "EcoPuntos Verdes" }
+// Datos simulados de cupones (idénticos a menu.js)
+let cupones = [
+    { id: 1, nombre: '10% Descuento Walmart', puntos: 50, activo: true, app: 'Walmart' },
+    { id: 2, nombre: '5% Descuento EcoPuntos', puntos: 20, activo: true, app: 'EcoPuntos' },
+    { id: 3, nombre: '15% Descuento Walmart', puntos: 100, activo: false, app: 'Walmart' }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,15 +25,31 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         abrirCupones();
     });
+
+    // Link de favoritos
+    const linkFavoritos = document.getElementById('linkFavoritos');
+    if (linkFavoritos) linkFavoritos.addEventListener('click', (e) => {
+        e.preventDefault();
+        abrirFavoritos();
+    });
+
+    // Configurar cierre de modales
+    configurarCierreModales();
 });
 
 function cargarProductos() {
     const grid = document.getElementById('productosGrid');
-    grid.innerHTML = productos.map(producto => `
+    grid.innerHTML = productos.map(producto => {
+        const esFavorito = productosFavoritos.some(fav => fav.id === producto.id);
+        return `
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
             <div class="flex space-x-4">
-                <div class="flex-shrink-0">
+                <div class="flex-shrink-0 relative">
                     <img src="${producto.imagen}" alt="${producto.nombre}" class="w-20 h-20 object-cover rounded-xl border border-gray-200">
+                    <button onclick="toggleFavorito(${producto.id})" 
+                            class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center transition-all hover:scale-110 ${esFavorito ? 'text-red-500' : 'text-gray-400'}">
+                        <i class="fas fa-heart ${esFavorito ? 'fas' : 'far'}"></i>
+                    </button>
                 </div>
                 <div class="flex-1 min-w-0">
                     <h3 class="font-semibold text-gray-800 text-lg mb-1 truncate">${producto.nombre}</h3>
@@ -53,7 +71,7 @@ function cargarProductos() {
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
 function calcularEquivalencia(huellaKg) {
@@ -61,9 +79,86 @@ function calcularEquivalencia(huellaKg) {
     return `${arboles.toFixed(1)} árboles plantados`;
 }
 
+// Función para agregar/remover de favoritos
+window.toggleFavorito = function(productId) {
+    const producto = productos.find(p => p.id === productId);
+    const index = productosFavoritos.findIndex(fav => fav.id === productId);
+    
+    if (index === -1) {
+        // Agregar a favoritos
+        productosFavoritos.push(producto);
+        generarNotificacion(`❤️ "${producto.nombre}" agregado a favoritos`);
+    } else {
+        // Remover de favoritos
+        productosFavoritos.splice(index, 1);
+        generarNotificacion(`💔 "${producto.nombre}" removido de favoritos`);
+    }
+    
+    // Guardar en localStorage
+    localStorage.setItem('productosFavoritos', JSON.stringify(productosFavoritos));
+    
+    // Actualizar interfaz
+    cargarProductos();
+    
+    // Si el modal de favoritos está abierto, actualizarlo
+    if (!document.getElementById('modalFavoritos').classList.contains('hidden')) {
+        cargarFavoritos();
+    }
+}
+
+// Función para abrir modal de favoritos
+function abrirFavoritos() {
+    document.getElementById("modalFavoritos").classList.remove("hidden");
+    cargarFavoritos();
+}
+
+function cerrarFavoritos() {
+    document.getElementById("modalFavoritos").classList.add("hidden");
+}
+
+// Cargar productos favoritos en el modal
+function cargarFavoritos() {
+    const lista = document.getElementById('listaFavoritos');
+    
+    if (productosFavoritos.length === 0) {
+        lista.innerHTML = `
+            <div class="text-center py-8">
+                <i class="fas fa-heart text-gray-300 text-4xl mb-3"></i>
+                <p class="text-gray-500">No tienes productos favoritos</p>
+                <p class="text-sm text-gray-400 mt-1">Haz clic en el corazón de los productos para agregarlos</p>
+            </div>
+        `;
+        return;
+    }
+    
+    lista.innerHTML = productosFavoritos.map(producto => `
+        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+            <div class="flex items-center space-x-3 flex-1">
+                <img src="${producto.imagen}" alt="${producto.nombre}" class="w-12 h-12 object-cover rounded-lg">
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-gray-800 text-sm truncate">${producto.nombre}</div>
+                    <div class="text-xs text-gray-500">$${producto.precio.toLocaleString()} • +${producto.puntosVerdes} pts</div>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="comprarProducto(${producto.id})" 
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-semibold transition-colors">
+                    Comprar
+                </button>
+                <button onclick="toggleFavorito(${producto.id})" 
+                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs font-semibold transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
 window.comprarProducto = function(productId) {
     productoSeleccionado = productos.find(p => p.id === productId);
     mostrarModalPago();
+    // Cerrar modal de favoritos si está abierto
+    cerrarFavoritos();
 }
 
 function mostrarModalPago() {
@@ -156,7 +251,15 @@ function mostrarConfirmacion() {
 }
 
 function actualizarPuntosUI() {
-    document.getElementById('puntosUsuario').textContent = `${puntosUsuario} Puntos Verdes`;
+    const puntosElement = document.getElementById('puntosUsuario');
+    if (puntosElement) {
+        puntosElement.textContent = `${puntosUsuario} Puntos Verdes`;
+    }
+}
+
+// Función para regresar al menú
+function irAlMenu() {
+    window.location.href = '../menu/menu.html';
 }
 
 window.cerrarModal = function() {
@@ -171,10 +274,9 @@ window.cerrarConfirmacion = function() {
     document.getElementById('modalConfirmacion').classList.add('hidden');
 }
 
-// ---------- Funciones de Cupones ----------
+// ---------- Funciones de Cupones (idénticas a menu.js) ----------
 function abrirCupones() {
-    const modal = document.getElementById("modalCupones");
-    modal.classList.remove("hidden");
+    document.getElementById("modalCupones").classList.remove("hidden");
     cargarCupones();
 }
 
@@ -182,6 +284,30 @@ function cerrarCupones() {
     document.getElementById("modalCupones").classList.add("hidden");
 }
 
+// Cargar cupones dinámicamente (misma función que en menu.js)
+function cargarCupones() {
+    const lista = document.getElementById('listaCupones');
+    lista.innerHTML = '';
+
+    cupones.forEach(cupon => {
+        const puedeCanjear = puntosUsuario >= cupon.puntos && cupon.activo;
+        lista.innerHTML += `
+            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <div>
+                    <div class="font-semibold">${cupon.nombre}</div>
+                    <div class="text-xs text-gray-500">Requiere ${cupon.puntos} puntos • ${cupon.app}</div>
+                </div>
+                <button ${!puedeCanjear ? 'disabled' : ''} 
+                    class="px-3 py-1 rounded-lg text-white ${puedeCanjear ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}"
+                    onclick="canjearCupon(${cupon.id})">
+                    Canjear
+                </button>
+            </div>
+        `;
+    });
+}
+
+// Canjear cupón (misma función que en menu.js)
 function canjearCupon(id) {
     const cupon = cupones.find(c => c.id === id);
     if (!cupon || !cupon.activo) {
@@ -195,70 +321,58 @@ function canjearCupon(id) {
 
     puntosUsuario -= cupon.puntos;
     localStorage.setItem('puntosUsuario', puntosUsuario);
-    alert(`✅ Cupón canjeado: ${cupon.nombre} (${cupon.app})`);
+    
+    // Mostrar notificación de éxito
+    generarNotificacion(`✅ Cupón canjeado: ${cupon.nombre} (${cupon.app})`);
+    
+    // Actualizar interfaz
     cargarCupones();
     actualizarPuntosUI();
+    cerrarCupones();
 }
 
-function cargarCupones() {
-    const lista = document.getElementById("listaCupones");
-    lista.innerHTML = "";
-
-    cupones.forEach(c => {
-        const btnDisabled = (puntosUsuario < c.puntos || !c.activo) ? "disabled opacity-50 cursor-not-allowed" : "";
-        const div = document.createElement("div");
-        div.className = "flex justify-between items-center p-3 bg-gray-50 rounded-lg";
-        div.innerHTML = `
-            <div>
-                <div class="font-semibold">${c.nombre}</div>
-                <div class="text-xs text-gray-500">${c.puntos} puntos - ${c.app}</div>
-            </div>
-            <button class="px-3 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 ${btnDisabled}" 
-                ${btnDisabled ? "disabled" : ""} 
-                onclick="canjearCupon(${c.id})">
-                Canjear
-            </button>
-        `;
-        lista.appendChild(div);
-    });
-}
-// Cerrar modal de pago
-window.cerrarModal = function() {
-    document.getElementById('modalPago').classList.add('hidden');
-    productoSeleccionado = null;
-    tarjetaSeleccionada = null;
-    document.getElementById('btnPagar').innerHTML = 'Pagar Ahora';
-    document.getElementById('btnPagar').disabled = true;
+// Función de notificación
+function generarNotificacion(mensaje) {
+    // Crear elemento de notificación
+    const noti = document.createElement("div");
+    noti.className = "fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg animate-bounce z-[10000]";
+    noti.innerText = mensaje;
+    document.body.appendChild(noti);
+    
+    // Remover después de 4 segundos
+    setTimeout(() => {
+        noti.remove();
+    }, 4000);
 }
 
-// Cerrar modal de confirmación
-window.cerrarConfirmacion = function() {
-    document.getElementById('modalConfirmacion').classList.add('hidden');
-}
-
-// Cerrar modal de cupones
-window.cerrarCupones = function() {
-    document.getElementById('modalCupones').classList.add('hidden');
-}
-
-// Cerrar al hacer clic fuera del contenido del modal
-function agregarCerrarModalFuera(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) { // clic en el fondo
-            modal.classList.add('hidden');
+// Configurar cierre de modales al hacer clic fuera
+function configurarCierreModales() {
+    // Cerrar modales al hacer clic fuera
+    ['modalCupones', 'modalFavoritos', 'modalPago', 'modalConfirmacion'].forEach(modalId => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    if (modalId === 'modalCupones') cerrarCupones();
+                    if (modalId === 'modalFavoritos') cerrarFavoritos();
+                    if (modalId === 'modalPago') window.cerrarModal();
+                    if (modalId === 'modalConfirmacion') window.cerrarConfirmacion();
+                }
+            });
         }
     });
-}
-
-// Aplicar a todos los modales
-['modalPago', 'modalConfirmacion', 'modalCupones'].forEach(id => agregarCerrarModalFuera(id));
-
-function irAtras() {
-    history.back(); // Regresa a la página anterior en el historial
 }
 
 // Exponer funciones usadas por atributos onclick cuando se usa type="module"
 window.abrirCupones = abrirCupones;
 window.cerrarCupones = cerrarCupones;
 window.canjearCupon = canjearCupon;
+window.abrirFavoritos = abrirFavoritos;
+window.cerrarFavoritos = cerrarFavoritos;
+window.toggleFavorito = toggleFavorito;
+window.irAlMenu = irAlMenu;
+window.comprarProducto = comprarProducto;
+window.seleccionarTarjeta = seleccionarTarjeta;
+window.procesarPago = procesarPago;
+window.cerrarModal = cerrarModal;
+window.cerrarConfirmacion = cerrarConfirmacion;
