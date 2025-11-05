@@ -35,35 +35,56 @@
                         <a href="../dashboard/dashboard.html"
                             class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Mi
                             Cuenta</a>
-                        <a href="#"
+                        <a href="#" onclick="abrirAyuda()"
                             class="px-4 py-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors">Ayuda</a>
                     </div>
                 </nav>
 
                 <!-- Botones derecha -->
                 <div class="flex items-center space-x-3">
-                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
+                    <button onclick="sincronizarDatos()" class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
                         <i class="fas fa-sync-alt text-xl"></i>
                     </button>
-                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
+                    <button onclick="abrirMapaEcoPuntos()" class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
                         <i class="fas fa-map-marker-alt text-xl"></i>
                     </button>
-                    <div class="relative">
-                        <button onclick="toggleUserMenu()"
-                            class="hide-mobile p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable">
-                            <i class="fas fa-user-circle text-xl"></i>
-                        </button>
+<div class="relative">
+    <button onclick="toggleUserMenu()"
+        class="hide-mobile p-3 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors clickeable"
+        aria-expanded="false" 
+        aria-controls="userMenu"
+        aria-label="Menú de usuario">
+        <i class="fas fa-user-circle text-xl"></i>
+    </button>
 
-                        <!-- Menú desplegable -->
-                        <div id="userMenu"
-                            class="hidden absolute right-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-lg z-50">
-                            <a href="../dashboard/dashboard.html" class="block px-4 py-2 hover:bg-gray-100">Mi
-                                Cuenta</a>
-                            <a href="#" onclick="abrirNotificaciones()" class="block px-4 py-2 hover:bg-gray-100">⚙️
-                                Configuración de Notificaciones</a>
-                            <a href="../login/login.html" class="block px-4 py-2 hover:bg-gray-100">Cerrar Sesión</a>
-                        </div>
-                    </div>
+    <!-- Menú desplegable MEJORADO -->
+    <div id="userMenu"
+        class="hidden absolute right-0 mt-2 w-64 bg-white text-gray-800 rounded-xl shadow-xl z-50 border border-gray-200 py-2">
+        <!-- Header del usuario -->
+        <div class="px-4 py-3 border-b border-gray-100">
+            <div class="font-semibold text-gray-800">Juan Pérez</div>
+            <div class="text-sm text-gray-500">Eco-Usuario Activo 🌱</div>
+        </div>
+        
+        <!-- Opciones del menú -->
+        <a href="../dashboard/dashboard.html" class="flex items-center px-4 py-3 hover:bg-green-50 transition-colors group">
+            <i class="fas fa-user text-green-600 w-5 mr-3 group-hover:scale-110 transition-transform"></i>
+            <span>Mi Cuenta Ecológica</span>
+        </a>
+        
+        <a href="#" onclick="abrirNotificaciones()" class="flex items-center px-4 py-3 hover:bg-blue-50 transition-colors group">
+            <i class="fas fa-cog text-blue-600 w-5 mr-3 group-hover:scale-110 transition-transform"></i>
+            <span>Configuración de Notificaciones</span>
+        </a>
+        
+        <div class="border-t border-gray-100 mt-2 pt-2">
+            <a href="../login/login.html" class="flex items-center px-4 py-3 hover:bg-red-50 text-red-600 transition-colors group">
+                <i class="fas fa-sign-out-alt w-5 mr-3 group-hover:scale-110 transition-transform"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+        </div>
+    </div>
+</div>
 
                 </div>
             </div>
@@ -88,9 +109,9 @@
                             <span class="text-gray-600 ml-2 font-medium text-lg">Puntos Verdes</span>
                         </div>
                         <button onclick="abrirModalCanjear()"
-    class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full font-semibold transition-colors shadow-md clickeable">
-    Canjear
-</button>
+                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full font-semibold transition-colors shadow-md clickeable">
+                            Canjear
+                        </button>
                     </div>
                 </div>
 
@@ -113,7 +134,6 @@
         <!-- Contenido principal responsivo -->
         <div class="app-content">
             <!-- Grid responsivo de funcionalidades -->
-            <!-- Grid responsivo de funcionalidades -->
             <div class="responsive-grid mb-8">
                 <!-- Escanear producto -->
                 <div class="card hover:shadow-lg transition-all clickeable animate-fade-in cursor-pointer"
@@ -126,10 +146,10 @@
                             <div class="font-semibold text-gray-800 text-lg lg:text-xl">Escanear</div>
                             <div class="text-sm text-gray-600 mt-1">Escanea códigos de barras para obtener más detalles
                             </div>
-                            <a href="../escaneo/escaneo.html"
+                            <button onclick="abrirEscanerBarras()"
                                 class="hide-mobile mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                                 Escanear
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -142,7 +162,7 @@
                         <div>
                             <div class="font-semibold text-gray-800 text-lg lg:text-xl">Pedido de supermercado</div>
                             <div class="text-sm text-gray-600 mt-1">8 de abril - Productos ecológicos</div>
-                            <button
+                            <button onclick="mostrarDetallesPedido()"
                                 class="hide-mobile mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
                                 Ver detalles
                             </button>
@@ -184,13 +204,34 @@
                         </div>
                         <div class="font-semibold text-gray-800 text-xl">Acciones Rápidas</div>
                         <div class="mt-4 space-y-2">
-                            <button
+                            <button onclick="abrirCalculadoraHuella()"
                                 class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm">
                                 Calcular Huella
                             </button>
-                            <button
+                            <button onclick="abrirEstadisticas()"
                                 class="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm">
                                 Ver Estadísticas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lector QR (desktop) -->
+                <div class="hide-mobile card hover:shadow-lg transition-all animate-fade-in">
+                    <div class="text-center">
+                        <div class="bg-orange-100 rounded-2xl p-4 mb-4 inline-block">
+                            <i class="fas fa-camera text-orange-600 text-3xl"></i>
+                        </div>
+                        <div class="font-semibold text-gray-800 text-xl">Lector QR</div>
+                        <div class="text-sm text-gray-600 mb-4">Escanea códigos QR de productos</div>
+                        <div class="mt-4 space-y-2">
+                            <button onclick="abrirLectorQR()"
+                                class="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg transition-colors text-sm">
+                                <i class="fas fa-camera mr-2"></i> Abrir Cámara
+                            </button>
+                            <button onclick="abrirHistorialEscaneos()"
+                                class="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition-colors text-sm">
+                                <i class="fas fa-history mr-2"></i> Historial Escaneos
                             </button>
                         </div>
                     </div>
@@ -235,7 +276,7 @@
                     <i class="fas fa-home text-blue-500 text-lg mb-1 lg:mb-0"></i>
                     <span class="text-xs lg:text-sm text-blue-500 font-semibold">Inicio</span>
                 </a>
-                <a href="#"
+                <a href="#" onclick="abrirFavoritos()"
                     class="flex flex-col items-center p-2 hover:bg-gray-100 rounded-xl transition-colors clickeable lg:flex-row lg:space-x-2">
                     <i class="fas fa-heart text-gray-400 text-lg mb-1 lg:mb-0"></i>
                     <span class="text-xs lg:text-sm text-gray-600">Favoritos</span>
@@ -248,6 +289,7 @@
             </div>
         </div>
     </div>
+
     <!-- Modal Configuración Notificaciones -->
     <div id="modalNotificaciones"
         class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -299,122 +341,653 @@
             </div>
         </div>
     </div>
-<!-- Modal Canjear Alimentos/Bebidas -->
-<div id="modalCanjear" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-gray-800">Canjear Premios</h2>
-            <button onclick="cerrarModalCanjear()" class="text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
 
-        <!-- Información de puntos -->
-        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-            <div class="flex justify-between items-center">
-                <span class="text-green-800 font-semibold">Tus Puntos Verdes:</span>
-                <span class="text-2xl font-bold text-green-600" id="puntosModal">0</span>
-            </div>
-        </div>
-
-        <!-- Lista de opciones -->
-        <div class="space-y-3 max-h-80 overflow-y-auto">
-            <!-- Opción 1 - 5 puntos -->
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-coffee text-blue-600"></i>
-                    </div>
-                    <div>
-                        <div class="font-semibold text-gray-800">Café Ecológico</div>
-                        <div class="text-xs text-gray-500">250ml - Origen sostenible</div>
-                    </div>
-                </div>
-                <button onclick="canjearProducto(5, 'Café Ecológico')" 
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                    5 Puntos
+    <!-- Modal Canjear Alimentos/Bebidas -->
+    <div id="modalCanjear" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">Canjear Premios</h2>
+                <button onclick="cerrarModalCanjear()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
 
-            <!-- Opción 2 - 10 puntos -->
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-apple-alt text-green-600"></i>
-                    </div>
-                    <div>
-                        <div class="font-semibold text-gray-800">Ensalada Fresca</div>
-                        <div class="text-xs text-gray-500">Ingredientes orgánicos</div>
-                    </div>
+            <!-- Información de puntos -->
+            <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <div class="flex justify-between items-center">
+                    <span class="text-green-800 font-semibold">Tus Puntos Verdes:</span>
+                    <span class="text-2xl font-bold text-green-600" id="puntosModal">0</span>
                 </div>
-                <button onclick="canjearProducto(10, 'Ensalada Fresca')" 
-                        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                    10 Puntos
-                </button>
             </div>
 
-            <!-- Opción 3 - 20 puntos -->
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-bread-slice text-yellow-600"></i>
+            <!-- Lista de opciones -->
+            <div class="space-y-3 max-h-80 overflow-y-auto">
+                <!-- Opción 1 - 5 puntos -->
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-coffee text-blue-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Café Ecológico</div>
+                            <div class="text-xs text-gray-500">250ml - Origen sostenible</div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="font-semibold text-gray-800">Sandwich Integral</div>
-                        <div class="text-xs text-gray-500">Pan artesanal - Vegetariano</div>
-                    </div>
+                    <button onclick="canjearProducto(5, 'Café Ecológico')" 
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        5 Puntos
+                    </button>
                 </div>
-                <button onclick="canjearProducto(20, 'Sandwich Integral')" 
-                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                    20 Puntos
-                </button>
+
+                <!-- Opción 2 - 10 puntos -->
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-apple-alt text-green-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Ensalada Fresca</div>
+                            <div class="text-xs text-gray-500">Ingredientes orgánicos</div>
+                        </div>
+                    </div>
+                    <button onclick="canjearProducto(10, 'Ensalada Fresca')" 
+                            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        10 Puntos
+                    </button>
+                </div>
+
+                <!-- Opción 3 - 20 puntos -->
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-bread-slice text-yellow-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Sandwich Integral</div>
+                            <div class="text-xs text-gray-500">Pan artesanal - Vegetariano</div>
+                        </div>
+                    </div>
+                    <button onclick="canjearProducto(20, 'Sandwich Integral')" 
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        20 Puntos
+                    </button>
+                </div>
+
+                <!-- Opción 4 - 30 puntos -->
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-wine-bottle text-red-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Jugo Natural</div>
+                            <div class="text-xs text-gray-500">500ml - Sin conservantes</div>
+                        </div>
+                    </div>
+                    <button onclick="canjearProducto(30, 'Jugo Natural')" 
+                            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        30 Puntos
+                    </button>
+                </div>
+
+                <!-- Opción 5 - 40 puntos -->
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-utensils text-purple-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Comida Completa</div>
+                            <div class="text-xs text-gray-500">Plato del día ecológico</div>
+                        </div>
+                    </div>
+                    <button onclick="canjearProducto(40, 'Comida Completa')" 
+                            class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        40 Puntos
+                    </button>
+                </div>
             </div>
 
-            <!-- Opción 4 - 30 puntos -->
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-wine-bottle text-red-600"></i>
-                    </div>
-                    <div>
-                        <div class="font-semibold text-gray-800">Jugo Natural</div>
-                        <div class="text-xs text-gray-500">500ml - Sin conservantes</div>
-                    </div>
-                </div>
-                <button onclick="canjearProducto(30, 'Jugo Natural')" 
-                        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                    30 Puntos
-                </button>
+            <!-- Mensaje informativo -->
+            <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                <p class="text-sm text-blue-700 text-center">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Los puntos se descuentan automáticamente de tu saldo
+                </p>
             </div>
-
-            <!-- Opción 5 - 40 puntos -->
-            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-utensils text-purple-600"></i>
-                    </div>
-                    <div>
-                        <div class="font-semibold text-gray-800">Comida Completa</div>
-                        <div class="text-xs text-gray-500">Plato del día ecológico</div>
-                    </div>
-                </div>
-                <button onclick="canjearProducto(40, 'Comida Completa')" 
-                        class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                    40 Puntos
-                </button>
-            </div>
-        </div>
-
-        <!-- Mensaje informativo -->
-        <div class="mt-4 p-3 bg-blue-50 rounded-lg">
-            <p class="text-sm text-blue-700 text-center">
-                <i class="fas fa-info-circle mr-1"></i>
-                Los puntos se descuentan automáticamente de tu saldo
-            </p>
         </div>
     </div>
-</div>
+
+    <!-- Modal Lector QR -->
+    <div id="modalLectorQR" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">📷 Lector QR</h2>
+                <button onclick="cerrarLectorQR()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Vista de cámara -->
+            <div id="camaraContainer" class="mb-4">
+                <div class="bg-gray-100 rounded-xl p-8 text-center mb-4">
+                    <i class="fas fa-camera text-gray-400 text-4xl mb-3"></i>
+                    <p class="text-gray-600">Preparando cámara...</p>
+                </div>
+                <video id="video" class="w-full h-64 bg-black rounded-lg hidden"></video>
+                <canvas id="canvas" class="hidden"></canvas>
+            </div>
+
+            <!-- Resultado del escaneo -->
+            <div id="resultadoQR" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                <h3 class="font-semibold text-green-800 mb-2">✅ QR Escaneado Exitosamente</h3>
+                <p id="qrData" class="text-sm text-gray-700"></p>
+            </div>
+
+            <!-- Controles -->
+            <div class="flex flex-col space-y-3">
+                <button id="btnIniciarCamara" onclick="iniciarCamara()"
+                    class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-camera mr-2"></i> Iniciar Cámara
+                </button>
+                <button id="btnDetenerCamara" onclick="detenerCamara()" 
+                    class="bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold transition-colors hidden">
+                    <i class="fas fa-stop mr-2"></i> Detener Cámara
+                </button>
+                <button onclick="cerrarLectorQR()"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-times mr-2"></i> Cerrar
+                </button>
+            </div>
+
+            <!-- Mensaje informativo -->
+            <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                <p class="text-sm text-blue-700 text-center">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Escanea códigos QR de productos ecológicos para obtener información
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Calculadora Huella Carbono -->
+    <div id="modalCalculadoraHuella" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">🌍 Calculadora de Huella de Carbono</h2>
+                <button onclick="cerrarCalculadoraHuella()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Formulario -->
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Transporte mensual (km)</label>
+                    <input type="number" id="transporteKm" placeholder="Ej: 300" 
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Consumo eléctrico mensual (kWh)</label>
+                    <input type="number" id="consumoElectrico" placeholder="Ej: 150" 
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Alimentación</label>
+                    <select id="tipoAlimentacion" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="omnivoro" selected>Omnívoro</option>
+                        <option value="vegano">Vegano</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Resultado -->
+            <div id="resultadoHuella" class="hidden mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 class="font-semibold text-blue-800 mb-2">📊 Tu Huella de Carbono</h3>
+                <div class="text-2xl font-bold text-blue-600 mb-2" id="huellaResultado">0 kg CO₂/mes</div>
+                <p class="text-sm text-gray-600" id="comparativaHuella"></p>
+                <div class="mt-3 bg-white rounded-full h-3">
+                    <div id="barraProgreso" class="bg-green-500 h-3 rounded-full transition-all duration-1000"></div>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex flex-col space-y-3 mt-6">
+                <button onclick="calcularHuella()"
+                    class="bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-calculator mr-2"></i> Calcular Huella
+                </button>
+                <button onclick="cerrarCalculadoraHuella()"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-times mr-2"></i> Cerrar
+                </button>
+            </div>
+
+            <!-- Mensaje informativo -->
+            <div class="mt-4 p-3 bg-green-50 rounded-lg">
+                <p class="text-sm text-green-700 text-center">
+                    <i class="fas fa-lightbulb mr-1"></i>
+                    Reduce tu huella usando transporte público y productos locales
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Historial Escaneos -->
+    <div id="modalHistorialEscaneos" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">📋 Historial de Escaneos</h2>
+                <button onclick="cerrarHistorialEscaneos()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Lista de escaneos -->
+            <div class="space-y-3 max-h-64 overflow-y-auto">
+                <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-green-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Botella Reutilizable</div>
+                            <div class="text-xs text-gray-500">Hoy - 15 Puntos</div>
+                        </div>
+                    </div>
+                    <span class="text-green-600 font-semibold">+15</span>
+                </div>
+                
+                <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-solar-panel text-blue-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Panel Solar</div>
+                            <div class="text-xs text-gray-500">Ayer - 50 Puntos</div>
+                        </div>
+                    </div>
+                    <span class="text-green-600 font-semibold">+50</span>
+                </div>
+                
+                <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-seedling text-yellow-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Compuesto Orgánico</div>
+                            <div class="text-xs text-gray-500">15/Oct - 25 Puntos</div>
+                        </div>
+                    </div>
+                    <span class="text-green-600 font-semibold">+25</span>
+                </div>
+                
+                <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg border border-purple-200">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-recycle text-purple-600"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Bolsas Biodegradables</div>
+                            <div class="text-xs text-gray-500">12/Oct - 10 Puntos</div>
+                        </div>
+                    </div>
+                    <span class="text-green-600 font-semibold">+10</span>
+                </div>
+            </div>
+
+            <!-- Resumen -->
+            <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Total de escaneos:</span>
+                    <span class="font-semibold">4 productos</span>
+                </div>
+                <div class="flex justify-between text-sm mt-1">
+                    <span class="text-gray-600">Puntos totales:</span>
+                    <span class="font-semibold text-green-600">100 puntos</span>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex space-x-3 mt-4">
+                <button onclick="cerrarHistorialEscaneos()"
+                    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg font-semibold transition-colors">
+                    Cerrar
+                </button>
+                <button onclick="exportarHistorial()"
+                    class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-download mr-2"></i> Exportar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Estadísticas -->
+    <div id="modalEstadisticas" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-lg p-6 relative">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">📈 Tus Estadísticas Ecológicas</h2>
+                <button onclick="cerrarEstadisticas()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Grid de estadísticas -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-green-50 p-4 rounded-xl text-center">
+                    <i class="fas fa-leaf text-green-500 text-2xl mb-2"></i>
+                    <div class="font-bold text-2xl text-green-700">5.8</div>
+                    <div class="text-sm text-gray-600">kg CO₂ evitados</div>
+                </div>
+                
+                <div class="bg-blue-50 p-4 rounded-xl text-center">
+                    <i class="fas fa-tree text-blue-500 text-2xl mb-2"></i>
+                    <div class="font-bold text-2xl text-blue-700">0.26</div>
+                    <div class="text-sm text-gray-600">árboles equivalentes</div>
+                </div>
+                
+                <div class="bg-yellow-50 p-4 rounded-xl text-center">
+                    <i class="fas fa-recycle text-yellow-500 text-2xl mb-2"></i>
+                    <div class="font-bold text-2xl text-yellow-700">12</div>
+                    <div class="text-sm text-gray-600">productos escaneados</div>
+                </div>
+                
+                <div class="bg-purple-50 p-4 rounded-xl text-center">
+                    <i class="fas fa-trophy text-purple-500 text-2xl mb-2"></i>
+                    <div class="font-bold text-2xl text-purple-700">47°</div>
+                    <div class="text-sm text-gray-600">ranking ecológico</div>
+                </div>
+            </div>
+
+            <!-- Progreso mensual -->
+            <div class="bg-gray-50 p-4 rounded-xl mb-4">
+                <h3 class="font-semibold text-gray-800 mb-3">Progreso Mensual</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Meta de puntos (150)</span>
+                        <span class="font-semibold">123/150</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full" style="width: 82%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex space-x-3">
+                <button onclick="cerrarEstadisticas()"
+                    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg font-semibold transition-colors">
+                    Cerrar
+                </button>
+                <button onclick="compartirEstadisticas()"
+                    class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-share-alt mr-2"></i> Compartir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalles Pedido -->
+    <div id="modalDetallesPedido" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">🛒 Detalles del Pedido</h2>
+                <button onclick="cerrarDetallesPedido()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Información del pedido -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                    <div>
+                        <div class="font-semibold">Botella Reutilizable</div>
+                        <div class="text-sm text-gray-600">Cantidad: 1</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold">$15.000</div>
+                        <div class="text-green-600 text-sm">+15 puntos</div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                    <div>
+                        <div class="font-semibold">Compuesto Orgánico</div>
+                        <div class="text-sm text-gray-600">Cantidad: 2</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold">$24.000</div>
+                        <div class="text-green-600 text-sm">+25 puntos</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen -->
+            <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-600">Subtotal:</span>
+                    <span class="font-semibold">$39.000</span>
+                </div>
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-600">Envío:</span>
+                    <span class="font-semibold">$0</span>
+                </div>
+                <div class="flex justify-between text-lg font-bold mt-2">
+                    <span>Total:</span>
+                    <span>$39.000</span>
+                </div>
+                <div class="flex justify-between text-sm mt-2">
+                    <span class="text-gray-600">Puntos ganados:</span>
+                    <span class="font-semibold text-green-600">+40 puntos</span>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex space-x-3 mt-6">
+                <button onclick="cerrarDetallesPedido()"
+                    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg font-semibold transition-colors">
+                    Cerrar
+                </button>
+                <button onclick="seguirPedido()"
+                    class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-truck mr-2"></i> Seguir Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ayuda -->
+    <div id="modalAyuda" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">❓ Centro de Ayuda</h2>
+                <button onclick="cerrarAyuda()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Contenido ayuda -->
+            <div class="space-y-4">
+                <div class="p-3 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-800 mb-2">¿Cómo ganar puntos?</h3>
+                    <p class="text-sm text-gray-700">Escanea productos ecológicos y realiza compras sostenibles para acumular Puntos Verdes.</p>
+                </div>
+                
+                <div class="p-3 bg-green-50 rounded-lg">
+                    <h3 class="font-semibold text-green-800 mb-2">¿Qué puedo canjear?</h3>
+                    <p class="text-sm text-gray-700">Canjea tus puntos por alimentos, bebidas y descuentos en productos ecológicos.</p>
+                </div>
+                
+                <div class="p-3 bg-yellow-50 rounded-lg">
+                    <h3 class="font-semibold text-yellow-800 mb-2">Soporte técnico</h3>
+                    <p class="text-sm text-gray-700">¿Problemas con la app? Contáctanos: soporte@ecopuntosverdes.com</p>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex space-x-3 mt-6">
+                <button onclick="cerrarAyuda()"
+                    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg font-semibold transition-colors">
+                    Cerrar
+                </button>
+                <button onclick="contactarSoporte()"
+                    class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-envelope mr-2"></i> Contactar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Mapa EcoPuntos -->
+    <div id="modalMapaEcoPuntos" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">🗺️ Mapa de EcoPuntos</h2>
+                <button onclick="cerrarMapaEcoPuntos()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Mapa simulado -->
+            <div class="bg-gray-100 rounded-xl p-8 text-center mb-4">
+                <i class="fas fa-map-marked-alt text-gray-400 text-4xl mb-3"></i>
+                <p class="text-gray-600">Mapa interactivo de puntos ecológicos</p>
+                <p class="text-sm text-gray-500 mt-2">3 tiendas cercanas encontradas</p>
+            </div>
+
+            <!-- Lista de tiendas -->
+            <div class="space-y-3 max-h-48 overflow-y-auto">
+                <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-store text-green-600"></i>
+                        <div>
+                            <div class="font-semibold">EcoMarket Centro</div>
+                            <div class="text-xs text-gray-500">0.8 km - Abierto</div>
+                        </div>
+                    </div>
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-xs">
+                        Ver
+                    </button>
+                </div>
+                
+                <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-leaf text-blue-600"></i>
+                        <div>
+                            <div class="font-semibold">Verde Natural</div>
+                            <div class="text-xs text-gray-500">1.2 km - Abierto</div>
+                        </div>
+                    </div>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-xs">
+                        Ver
+                    </button>
+                </div>
+                
+                <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-recycle text-yellow-600"></i>
+                        <div>
+                            <div class="font-semibold">EcoPoint Norte</div>
+                            <div class="text-xs text-gray-500">2.1 km - Cerrado</div>
+                        </div>
+                    </div>
+                    <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-lg text-xs">
+                        Ver
+                    </button>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex space-x-3 mt-6">
+                <button onclick="cerrarMapaEcoPuntos()"
+                    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg font-semibold transition-colors">
+                    Cerrar
+                </button>
+                <button onclick="actualizarUbicacion()"
+                    class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-sync-alt mr-2"></i> Actualizar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Favoritos -->
+    <div id="modalFavoritos" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">❤️ Mis Favoritos</h2>
+                <button onclick="cerrarFavoritos()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Lista de favoritos -->
+            <div class="space-y-3 max-h-64 overflow-y-auto">
+                <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg border">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <div>
+                            <div class="font-semibold text-gray-800">Botella Reutilizable</div>
+                            <div class="text-xs text-gray-500">$15.000 - 15 Puntos</div>
+                        </div>
+                    </div>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-xs">
+                        Comprar
+                    </button>
+                </div>
+                
+                <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg border">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-heart text-red-500"></i>
+                        <div>
+                            <div class="font-semibold text-gray-800">Panel Solar Portátil</div>
+                            <div class="text-xs text-gray-500">$85.000 - 50 Puntos</div>
+                        </div>
+                    </div>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-xs">
+                        Comprar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Estado vacío -->
+            <div id="favoritosVacio" class="text-center py-8 text-gray-500 hidden">
+                <i class="fas fa-heart text-gray-300 text-4xl mb-3"></i>
+                <p class="text-lg mb-2">No tienes favoritos</p>
+                <p class="text-sm mb-4">Agrega productos a favoritos desde la tienda</p>
+                <button onclick="irATienda()" class="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors">
+                    Explorar Tienda
+                </button>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex space-x-3 mt-6">
+                <button onclick="cerrarFavoritos()"
+                    class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg font-semibold transition-colors">
+                    Cerrar
+                </button>
+                <button onclick="limpiarFavoritos()"
+                    class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-trash mr-2"></i> Limpiar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="menu.js"></script>
 </body>
-
 </html>
