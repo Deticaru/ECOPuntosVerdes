@@ -6,8 +6,10 @@
     <title>ECO Puntos Verdes - Mi Cuenta</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <script type="module" crossorigin src="/ECOPuntosVerdes/assets/dashboard-Bbx2KEwM.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script type="module" crossorigin src="/ECOPuntosVerdes/assets/dashboard-BQEjWXCG.js"></script>
   <link rel="modulepreload" crossorigin href="/ECOPuntosVerdes/assets/modulepreload-polyfill-B5Qt9EMX.js">
   <link rel="stylesheet" crossorigin href="/ECOPuntosVerdes/assets/app-styles-DxmZkBXs.css">
 </head>
@@ -27,10 +29,19 @@
                 </div>
                 
                 <div class="flex space-x-3">
-                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable" title="Configuración">
-                        <i class="fas fa-cog text-xl"></i>
-                    </button>
-                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable" title="Exportar datos">
+                    <div class="relative">
+                        <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable" title="Configuración" onclick="toggleUserMenu()">
+                            <i class="fas fa-cog text-xl"></i>
+                        </button>
+                        
+                        <!-- Menú desplegable de usuario -->
+                        <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-lg z-50">
+                            <a href="../dashboard/dashboard.html" class="block px-4 py-2 hover:bg-gray-100">Mi Cuenta</a>
+                            <a href="#" onclick="abrirNotificaciones()" class="block px-4 py-2 hover:bg-gray-100">⚙️ Configuración de Notificaciones</a>
+                            <a href="../login/login.html" class="block px-4 py-2 hover:bg-gray-100">Cerrar Sesión</a>
+                        </div>
+                    </div>
+                    <button class="p-3 hover:bg-white hover:bg-opacity-20 rounded-lg clickeable" title="Exportar PDF" onclick="exportarPDF()">
                         <i class="fas fa-download text-xl"></i>
                     </button>
                 </div>
@@ -84,7 +95,7 @@
         <!-- Contenido principal -->
         <div class="app-content">
             <!-- Gráfico mensual con explicación detallada -->
-            <div class="card mb-6">
+            <div class="card mb-6" id="graficoMensualContainer">
                 <div class="mb-4">
                     <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center">
                         <i class="fas fa-chart-line text-green-500 mr-3"></i>
@@ -116,7 +127,7 @@
             </div>
 
             <!-- Impacto ambiental detallado -->
-            <div class="card mb-6">
+            <div class="card mb-6" id="impactoAmbientalContainer">
                 <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                     <i class="fas fa-globe text-blue-500 mr-3"></i>
                     Tu Impacto Ambiental Mensual
@@ -166,7 +177,7 @@
             </div>
 
             <!-- Historial de compras mejorado -->
-            <div class="card mb-6">
+            <div class="card mb-6" id="historialComprasContainer">
                 <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                     <i class="fas fa-history text-purple-500 mr-3"></i>
                     Historial de Compras Ecológicas
@@ -190,7 +201,7 @@
             </div>
 
             <!-- Logros con porcentajes -->
-            <div class="card mb-6">
+            <div class="card mb-6" id="logrosContainer">
                 <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                     <i class="fas fa-trophy text-yellow-500 mr-3"></i>
                     Logros Ecológicos
@@ -224,7 +235,7 @@
             </div>
 
             <!-- Comparativa mensual -->
-            <div class="card">
+            <div class="card" id="comparativaContainer">
                 <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                     <i class="fas fa-chart-bar text-indigo-500 mr-3"></i>
                     Comparativa Mensual 2025
@@ -245,7 +256,7 @@
         <!-- Navegación -->
         <div class="bottom-nav">
             <div class="flex justify-around items-center">
-                <a href="#" class="flex flex-col items-center p-2">
+                <a href="#" id="linkCupones" class="flex flex-col items-center p-2">
                     <i class="fas fa-gift text-gray-400 text-lg mb-1"></i>
                     <span class="text-xs text-gray-600">Cupones</span>
                 </a>
@@ -257,7 +268,7 @@
                     <i class="fas fa-home text-gray-400 text-lg mb-1"></i>
                     <span class="text-xs text-gray-600">Inicio</span>
                 </a>
-                <a href="#" class="flex flex-col items-center p-2">
+                <a href="#" id="linkFavoritos" class="flex flex-col items-center p-2">
                     <i class="fas fa-heart text-gray-400 text-lg mb-1"></i>
                     <span class="text-xs text-gray-600">Favoritos</span>
                 </a>
@@ -268,6 +279,80 @@
             </div>
         </div>
     </div>
-
+
+    <!-- Modal Configuración Notificaciones -->
+    <div id="modalNotificaciones" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 class="text-xl font-bold mb-4">Configuración de Notificaciones</h2>
+
+            <form id="formNotificaciones" class="space-y-3">
+                <label class="flex items-center">
+                    <input type="checkbox" name="puntos" class="mr-2">
+                    Alertas de puntos obtenidos
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="promociones" class="mr-2">
+                    Promociones y descuentos
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="productos" class="mr-2">
+                    Productos sostenibles recomendados
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="habitos" class="mr-2">
+                    Consejos de consumo responsable
+                </label>
+
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="cerrarNotificaciones()"
+                        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancelar</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Cupones -->
+    <div id="modalCupones" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <h2 class="text-xl font-bold mb-4">Promociones y Cupones</h2>
+
+            <div id="listaCupones" class="space-y-3 max-h-64 overflow-y-auto">
+                <!-- Se llenará dinámicamente desde JS -->
+            </div>
+
+            <div class="flex justify-end space-x-3 mt-4">
+                <button type="button" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+                    onclick="cerrarCupones()">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Favoritos -->
+    <div id="modalFavoritos" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999]">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md p-6 relative">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">❤️ Mis Favoritos</h2>
+                <button onclick="cerrarFavoritos()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div id="listaFavoritos" class="space-y-3 max-h-64 overflow-y-auto">
+                <!-- Se llenará dinámicamente desde JS -->
+            </div>
+
+            <div class="flex justify-end space-x-3 mt-4">
+                <button type="button" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+                    onclick="cerrarFavoritos()">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
