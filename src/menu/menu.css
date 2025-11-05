@@ -62,3 +62,57 @@ body {
     min-width: 150px;
   }
 }
+/* Agregar estas clases a tu app-styles.css para usar el diseño de la tarjeta verde */
+
+.green-feature-card {
+  background-color: #22c55e;
+  color: white;
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.feature-title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.feature-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.feature-btn {
+  display: block;
+  background: white;
+  color: black;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+  text-align: center;
+}
+
+.feature-btn:hover {
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .feature-buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .feature-btn {
+    width: auto;
+    min-width: 150px;
+  }
+}
